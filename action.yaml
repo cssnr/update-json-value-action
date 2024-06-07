@@ -9,6 +9,7 @@ inputs:
   file:
     description: "JSON File"
     required: true
+    default: "manifest.json"
   keys:
     description: "Keys to Update"
     required: false
