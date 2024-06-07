@@ -3,7 +3,7 @@ const fs = require('fs')
 
 ;(async () => {
     try {
-        // Process Inputs
+        // Parse Inputs
         const inputFile = core.getInput('file')
         console.log('file:', inputFile)
         const inputKeys = core.getInput('keys')
@@ -11,19 +11,25 @@ const fs = require('fs')
         const inputValues = core.getInput('values')
         console.log('inputValues:', inputValues)
 
-        // Parse Inputs
+        // Parse Keys
+        if (!inputKeys) {
+            return core.setFailed('No Keys Found.')
+        }
         const parsedKeys = inputKeys.split('\n')
         console.log('parsedKeys:', parsedKeys)
-        const parsedValues = inputValues.split('\n')
+
+        // Parse Values
+        const parsedValues = []
+        if (!inputValues) {
+            parsedValues.push(process.env.GITHUB_REF_NAME)
+        } else {
+            parsedValues.push(...inputValues.split('\n'))
+        }
         console.log('parsedValues:', parsedValues)
 
         // Validate Parsed Inputs
-        if (!parsedValues.length) {
-            parsedValues.push(process.env.GITHUB_REF_NAME)
-            core.info(`No values, using: ${process.env.GITHUB_REF_NAME}`)
-        }
         if (parsedKeys.length !== parsedValues.length) {
-            return core.setFailed('Keys do not equal Values.')
+            return core.setFailed('Keys and Values are not equal in length.')
         }
 
         // Update JSON
