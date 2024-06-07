@@ -1,0 +1,22 @@
+name: "Update JSON Value Action"
+description: "Update JSON Value Action"
+author: "Shane"
+branding:
+  icon: "code"
+  color: "green"
+
+inputs:
+  file:
+    description: "JSON File"
+    required: true
+  key:
+    description: "Version Key"
+    required: false
+    default: "version"
+  version:
+    description: "Set Version"
+    required: false
+
+runs:
+  using: "node20"
+  main: "src/index.js"
