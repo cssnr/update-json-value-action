@@ -11,17 +11,20 @@ Update JSON Value Action.
 
 ## Inputs
 
-| input   | required | default       | description              |
-| ------- | -------- | ------------- | ------------------------ |
-| file    | No       | manifest.json | JSON File Path           |
-| key     | No       | version       | JSON Key to Update       |
-| version | No       | -             | Manually Specify Version |
+| input  | required | default          | description                       |
+|--------|----------|------------------|-----------------------------------|
+| file   | No       | manifest.json    | JSON File Path                    |
+| keys   | No       | version          | JSON Keys to Update, One per Line |
+| values | No       | $GITHUB_REF_NAME | Values to Update, One per Line    |
+
+If no options are passed, it will update the `manifest.json` file key `version` to the value of `GITHUB_REF_NAME`.
+For multiple `keys` and `values` use new lines. Nested keys are specified using `.` notation.
 
 ```yaml
-- name: 'JavaScript Action'
+- name: 'Update JSON'
   uses: cssnr/update-json-value-action@master
   with:
-      file: src/manifest1.json
-      version: 1.0.0
-      key: 'version'
+    file: manifest.json
+    version: ${{ github.ref_name }}
+    key: version
 ```

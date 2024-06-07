@@ -9,12 +9,12 @@ inputs:
   file:
     description: "JSON File"
     required: true
-  key:
-    description: "Version Key"
+  keys:
+    description: "Keys to Update"
     required: false
     default: "version"
-  version:
-    description: "Set Version"
+  values:
+    description: "Values to Set"
     required: false
 
 runs:
