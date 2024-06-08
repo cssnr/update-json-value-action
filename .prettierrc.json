@@ -5,13 +5,13 @@
   "singleQuote": true,
   "overrides": [
     {
-      "files": ["**/*.json", "**/*.yaml", "**/*.yml"],
+      "files": ["**/*.json", "**/*.yaml"],
       "options": {
         "singleQuote": false
       }
     },
     {
-      "files": ["**/*.json", "**/*.yaml", "**/*.yml"],
+      "files": ["**/*.json", "**/*.yaml"],
       "options": {
         "tabWidth": 2
       }
