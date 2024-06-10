@@ -28,13 +28,13 @@ For multiple `keys` and `values` use new lines. Nested keys are specified using 
 Update the `manifest.json` file key `version` to the current `GITHUB_REF_NAME`.
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@master
+  uses: cssnr/update-json-value-action@v1
 ```
 
 Same as above but manually setting values and only running on `release` events.
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@master
+  uses: cssnr/update-json-value-action@v1
   if: ${{ github.event_name == 'release' }}
   with:
     file: manifest.json
@@ -45,7 +45,7 @@ Same as above but manually setting values and only running on `release` events.
 Same as above but also setting an additional key value pair.
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@master
+  uses: cssnr/update-json-value-action@v1
   if: ${{ github.event_name == 'release' }}
   with:
     file: manifest.json
@@ -60,7 +60,7 @@ Same as above but also setting an additional key value pair.
 Set a nested key and use file from different directory.
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@master
+  uses: cssnr/update-json-value-action@v1
   if: ${{ github.event_name == 'release' }}
   with:
     file: src/manifest.json
