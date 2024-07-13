@@ -1,11 +1,16 @@
-[![Tags](https://github.com/cssnr/update-json-value-action/actions/workflows/tags.yaml/badge.svg)](https://github.com/cssnr/update-json-value-action/actions/workflows/tags.yaml)
-
+[![Tags](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/tags.yaml?logo=github&logoColor=white&label=tags)](https://github.com/cssnr/update-json-value-action/actions/workflows/tags.yaml)
+[![CSSNR Website](https://img.shields.io/badge/pages-website-blue?logo=github&logoColor=white&color=blue)](https://cssnr.github.io/)
+[![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
 # Update JSON Value Action
 
 Update JSON file Value(s) for Publishing.
 
 Zero configuration to update a `manifest.json` file `version` value to a release tag.
 Allows setting multiple key/value pairs and setting nested keys. Arrays are not supported yet.
+
+*   [Inputs](#Inputs)
+*   [Examples](#Examples)
+*   [Support](#Support)
 
 > [!NOTE]  
 > Please submit a
@@ -69,3 +74,16 @@ Set a nested key and use file from different directory.
     values: |
       "Release ${{ github.ref_name }}"
 ```
+
+# Support
+
+For general help or to request a feature, see:
+
+- Q&A Discussion: https://github.com/cssnr/update-json-value-action/discussions/categories/q-a
+- Request a Feature: https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests
+
+If you are experiencing an issue/bug or getting unexpected results, you can:
+
+- Report an Issue: https://github.com/cssnr/update-json-value-action/issues
+- Chat with us on Discord: https://discord.gg/wXy6m2X8wY
+- Provide General Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=Update%20JSON%20Value)
