@@ -5,42 +5,38 @@ const fs = require('fs')
     try {
         // Parse Inputs
         const inputFile = core.getInput('file')
-        console.log('file:', inputFile)
+        console.log('inputFile:', inputFile)
         const inputKeys = core.getInput('keys')
         console.log('inputKeys:', inputKeys)
-        const inputValues = core.getInput('values')
+        const inputValues =
+            core.getInput('values') || process.env.GITHUB_REF_NAME
         console.log('inputValues:', inputValues)
 
         // Parse Keys
-        if (!inputKeys) {
-            return core.setFailed('No Keys Found.')
-        }
-        const parsedKeys = inputKeys.split('\n')
-        console.log('parsedKeys:', parsedKeys)
+        const keys = inputKeys.split('\n')
+        console.log('keys:', keys)
 
         // Parse Values
-        const parsedValues = []
-        if (!inputValues) {
-            parsedValues.push(process.env.GITHUB_REF_NAME)
-        } else {
-            parsedValues.push(...inputValues.split('\n'))
-        }
-        console.log('parsedValues:', parsedValues)
+        const values = inputValues.split('\n')
+        console.log('values:', values)
 
-        // Validate Parsed Inputs
-        if (parsedKeys.length !== parsedValues.length) {
-            return core.setFailed('Keys and Values are not equal in length.')
+        // Validate Inputs
+        if (keys.length !== values.length) {
+            return core.setFailed('Keys and Values length are not equal.')
         }
 
         // Update JSON
         let file = fs.readFileSync(inputFile)
         let data = JSON.parse(file.toString())
-        for (let i = 0; i < parsedKeys.length; i++) {
-            const key = parsedKeys[i]
-            const value = parsedValues[i]
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i]
+            const value = values[i]
             console.log(`-- ${i} -- ${key}: ${value}`)
             setNestedValue(data, key, value)
         }
+
+        // Write File
+        core.info(`Writing result to file ${inputFile}`)
         let result = JSON.stringify(data, null, 2)
         fs.writeFileSync(inputFile, result)
 
