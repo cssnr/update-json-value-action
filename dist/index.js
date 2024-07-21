@@ -26813,49 +26813,54 @@ const fs = __nccwpck_require__(7147)
     try {
         // Parse Inputs
         const inputFile = core.getInput('file')
-        console.log('file:', inputFile)
+        console.log('inputFile:', inputFile)
         const inputKeys = core.getInput('keys')
         console.log('inputKeys:', inputKeys)
-        const inputValues = core.getInput('values')
+        const inputValues =
+            core.getInput('values') || process.env.GITHUB_REF_NAME
         console.log('inputValues:', inputValues)
+        const writeFile = core.getBooleanInput('write')
+        console.log('writeFile:', writeFile)
 
         // Parse Keys
-        if (!inputKeys) {
-            return core.setFailed('No Keys Found.')
-        }
-        const parsedKeys = inputKeys.split('\n')
-        console.log('parsedKeys:', parsedKeys)
+        const keys = inputKeys.split('\n')
+        console.log('keys:', keys)
 
         // Parse Values
-        const parsedValues = []
-        if (!inputValues) {
-            parsedValues.push(process.env.GITHUB_REF_NAME)
-        } else {
-            parsedValues.push(...inputValues.split('\n'))
-        }
-        console.log('parsedValues:', parsedValues)
+        const values = inputValues.split('\n')
+        console.log('values:', values)
 
-        // Validate Parsed Inputs
-        if (parsedKeys.length !== parsedValues.length) {
-            return core.setFailed('Keys and Values are not equal in length.')
+        // Validate Inputs
+        if (keys.length !== values.length) {
+            return core.setFailed('Keys and Values length are not equal.')
         }
 
         // Update JSON
-        let file = fs.readFileSync(inputFile)
-        let data = JSON.parse(file.toString())
-        for (let i = 0; i < parsedKeys.length; i++) {
-            const key = parsedKeys[i]
-            const value = parsedValues[i]
-            console.log(`-- ${i} -- ${key}: ${value}`)
+        const file = fs.readFileSync(inputFile)
+        const data = JSON.parse(file.toString())
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i]
+            const value = values[i]
+            console.log(`--- ${i + 1}: ${key}: ${value}`)
             setNestedValue(data, key, value)
         }
-        let result = JSON.stringify(data, null, 2)
-        fs.writeFileSync(inputFile, result)
 
         // Display Result
+        const result = JSON.stringify(data, null, 2)
         console.log('-'.repeat(40))
         console.log(result)
         console.log('-'.repeat(40))
+
+        // Write File
+        if (writeFile) {
+            core.info(`\u001b[32;1mWriting result to file: ${inputFile}`)
+            fs.writeFileSync(inputFile, result)
+        } else {
+            core.info('\u001b[33;1mNot writing file because write is false.')
+        }
+
+        // Set Output
+        core.setOutput('result', JSON.stringify(data))
     } catch (e) {
         core.debug(e)
         core.info(e.message)
