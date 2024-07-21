@@ -11,6 +11,8 @@ const fs = require('fs')
         const inputValues =
             core.getInput('values') || process.env.GITHUB_REF_NAME
         console.log('inputValues:', inputValues)
+        const writeFile = core.getBooleanInput('write')
+        console.log('writeFile:', writeFile)
 
         // Parse Keys
         const keys = inputKeys.split('\n')
@@ -26,24 +28,33 @@ const fs = require('fs')
         }
 
         // Update JSON
-        let file = fs.readFileSync(inputFile)
-        let data = JSON.parse(file.toString())
+        const file = fs.readFileSync(inputFile)
+        const data = JSON.parse(file.toString())
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i]
             const value = values[i]
-            console.log(`-- ${i} -- ${key}: ${value}`)
+            console.log(`--- ${i + 1}: ${key}: ${value}`)
             setNestedValue(data, key, value)
         }
 
-        // Write File
-        core.info(`Writing result to file ${inputFile}`)
-        let result = JSON.stringify(data, null, 2)
-        fs.writeFileSync(inputFile, result)
-
         // Display Result
+        const result = JSON.stringify(data, null, 2)
         console.log('-'.repeat(40))
         console.log(result)
         console.log('-'.repeat(40))
+
+        // Write File
+        if (writeFile) {
+            core.info(`\u001b[32;1mWriting result to file: ${inputFile}`)
+            fs.writeFileSync(inputFile, result)
+        } else {
+            core.info(
+                '\u001b[38;2;255;0;0mNot writing file because write is false.'
+            )
+        }
+
+        // Set Output
+        core.setOutput('result', JSON.stringify(data))
     } catch (e) {
         core.debug(e)
         core.info(e.message)

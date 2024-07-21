@@ -12,6 +12,7 @@ Zero configuration to update a `manifest.json` file `version` value to a release
 Allows setting multiple key/value pairs and setting nested keys. Arrays are not supported yet.
 
 * [Inputs](#Inputs)
+* [Outputs](#Outputs)
 * [Examples](#Examples)
 * [Support](#Support)
 * [Contributing](#Contributing)
@@ -28,8 +29,9 @@ Allows setting multiple key/value pairs and setting nested keys. Arrays are not 
 | file   | No       | `manifest.json`    | JSON File Path                    |
 | keys   | No       | `version`          | JSON Keys to Update, One per Line |
 | values | No       | `$GITHUB_REF_NAME` | Values to Update, One per Line    |
+| write  | No       | `true`             | Write Updates to `file`           |
 
-If no options are passed, it will update the `manifest.json` file key `version` to the value of `GITHUB_REF_NAME`.  
+If no options are passed, it will update the `manifest.json` file's key `version` to the value of `GITHUB_REF_NAME`.  
 For multiple `keys` and `values` use new lines.  
 Nested keys are specified using `.` notation.  
 
@@ -37,6 +39,12 @@ Nested keys are specified using `.` notation.
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
 ```
+
+## Outputs
+
+| output | description         |
+|--------|---------------------|
+| result | Updated JSON String |
 
 ## Examples
 
@@ -80,6 +88,17 @@ Set a nested key and use file from different directory.
       meta.version
     values: |
       "Release ${{ github.ref_name }}"
+```
+
+Use the Output.
+
+```yaml
+- name: 'Update JSON'
+  id: json
+  uses: cssnr/update-json-value-action@v1
+
+- name: "Echo Result"
+  run: echo '${{ steps.json.outputs.result }}'
 ```
 
 # Support

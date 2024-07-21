@@ -17,6 +17,14 @@ inputs:
   values:
     description: "Values to Set"
     required: false
+  write:
+    description: "Write Result to File"
+    required: false
+    default: "true"
+
+outputs:
+  result:
+    description: "JSON Output Results"
 
 runs:
   using: "node20"
