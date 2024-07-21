@@ -26856,9 +26856,7 @@ const fs = __nccwpck_require__(7147)
             core.info(`\u001b[32;1mWriting result to file: ${inputFile}`)
             fs.writeFileSync(inputFile, result)
         } else {
-            core.info(
-                '\u001b[38;2;255;0;0mNot writing file because write is false.'
-            )
+            core.info('\u001b[33;1mNot writing file because write is false.')
         }
 
         // Set Output

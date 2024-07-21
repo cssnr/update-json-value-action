@@ -32,7 +32,7 @@ Allows setting multiple key/value pairs and setting nested keys. Arrays are not 
 | write  | No       | `true`             | Write Updates to `file`           |
 
 If no options are passed, it will update the `manifest.json` file's key `version` to the value of `GITHUB_REF_NAME`.  
-For multiple `keys` and `values` use new lines.  
+For multiple `keys` and `values` use new lines with a yaml `|`.  
 Nested keys are specified using `.` notation.  
 
 ```yaml
