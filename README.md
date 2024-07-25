@@ -1,5 +1,8 @@
 [![Tags](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/tags.yaml?logo=github&logoColor=white&label=tags)](https://github.com/cssnr/update-json-value-action/actions/workflows/tags.yaml)
+[![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&logoColor=white&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=github)](https://github.com/cssnr/update-json-value-action/releases/latest)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/update-json-value-action?logo=github&logoColor=white&label=updated)](https://github.com/cssnr/update-json-value-action/graphs/commit-activity)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/update-json-value-action?logo=htmx&logoColor=white)](https://github.com/cssnr/update-json-value-action)
 [![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white)](https://cssnr.github.io/)
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
@@ -8,8 +11,8 @@
 
 Update JSON file Value(s) for Publishing.
 
-Zero configuration to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Arrays are not supported yet.
+Zero configuration action to update a `manifest.json` file `version` value to a release tag.
+Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
 * [Inputs](#Inputs)
 * [Outputs](#Outputs)
@@ -24,16 +27,16 @@ Allows setting multiple key/value pairs and setting nested keys. Arrays are not 
 
 ## Inputs
 
-| input  | required | default            | description                       |
-|--------|----------|--------------------|-----------------------------------|
-| file   | No       | `manifest.json`    | JSON File Path                    |
-| keys   | No       | `version`          | JSON Keys to Update, One per Line |
-| values | No       | `$GITHUB_REF_NAME` | Values to Update, One per Line    |
-| write  | No       | `true`             | Write Updates to `file`           |
+| input     | required | default            | description                       |
+|-----------|----------|--------------------|-----------------------------------|
+| file      | No       | `manifest.json`    | JSON File Path                    |
+| keys      | No       | `version`          | JSON Keys to Update, One per Line |
+| values    | No       | `$GITHUB_REF_NAME` | Values to Update, One per Line    |
+| write     | No       | `true`             | Write Updates to `file`           |
+| seperator | No       | `.`                | Nested Key Seperator              |
 
 If no options are passed, it will update the `manifest.json` file's key `version` to the value of `GITHUB_REF_NAME`.  
-For multiple `keys` and `values` use new lines with a yaml `|`.  
-Nested keys are specified using `.` notation.  
+For multiple `keys` and `values` use new lines with a yaml `|`.
 
 ```yaml
 - name: 'Update JSON'
