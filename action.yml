@@ -21,6 +21,10 @@ inputs:
     description: "Write Result to File"
     required: false
     default: "true"
+  seperator:
+    description: "Nested Key Seperator"
+    required: false
+    default: "."
 
 outputs:
   result:

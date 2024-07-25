@@ -4,15 +4,20 @@ const fs = require('fs')
 ;(async () => {
     try {
         // Parse Inputs
-        const inputFile = core.getInput('file')
+        const inputFile = core.getInput('file', { required: true })
         console.log('inputFile:', inputFile)
-        const inputKeys = core.getInput('keys')
+        const inputKeys = core.getInput('keys', { required: true })
         console.log('inputKeys:', inputKeys)
         const inputValues =
             core.getInput('values') || process.env.GITHUB_REF_NAME
         console.log('inputValues:', inputValues)
         const writeFile = core.getBooleanInput('write')
         console.log('writeFile:', writeFile)
+        const seperator = core.getInput('seperator', {
+            required: true,
+            trimWhitespace: false,
+        })
+        console.log('seperator:', seperator)
 
         // Parse Keys
         const keys = inputKeys.split('\n')
@@ -28,13 +33,13 @@ const fs = require('fs')
         }
 
         // Update JSON
-        const file = fs.readFileSync(inputFile)
-        const data = JSON.parse(file.toString())
+        const fileData = fs.readFileSync(inputFile)
+        const data = JSON.parse(fileData.toString())
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i]
             const value = values[i]
             console.log(`--- ${i + 1}: ${key}: ${value}`)
-            setNestedValue(data, key, value)
+            setNestedValue(data, key, value, seperator)
         }
 
         // Display Result
@@ -45,10 +50,10 @@ const fs = require('fs')
 
         // Write File
         if (writeFile) {
-            core.info(`\u001b[32;1mWriting result to file: ${inputFile}`)
+            core.info(`\u001b[32mWriting result to file: ${inputFile}`)
             fs.writeFileSync(inputFile, result)
         } else {
-            core.info('\u001b[33;1mNot writing file because write is false.')
+            core.info('\u001b[33mNot writing file because write is false.')
         }
 
         // Set Output
@@ -62,12 +67,13 @@ const fs = require('fs')
 
 /**
  * @function setNestedValue
- * @param {Object} obj
- * @param {String} path
- * @param {String} value
+ * @param {Object} obj JSON Object
+ * @param {String} path Nested Key String
+ * @param {String} value Value to set
+ * @param {String} sep Nested Key Seperator
  */
-function setNestedValue(obj, path, value) {
-    const keys = path.split('.')
+function setNestedValue(obj, path, value, sep) {
+    const keys = path.split(sep)
     let current = obj
     for (let i = 0; i < keys.length - 1; i++) {
         const key = keys[i]
