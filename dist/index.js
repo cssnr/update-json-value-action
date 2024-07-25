@@ -26812,28 +26812,21 @@ const fs = __nccwpck_require__(7147)
 ;(async () => {
     try {
         // Parse Inputs
-        const inputFile = core.getInput('file', { required: true })
-        console.log('inputFile:', inputFile)
-        const inputKeys = core.getInput('keys', { required: true })
-        console.log('inputKeys:', inputKeys)
-        const inputValues =
+        const file = core.getInput('file', { required: true })
+        console.log('file:', file)
+        const keys = core.getInput('keys', { required: true }).split('\n')
+        console.log('keys:', keys)
+        const values = (
             core.getInput('values') || process.env.GITHUB_REF_NAME
-        console.log('inputValues:', inputValues)
-        const writeFile = core.getBooleanInput('write')
-        console.log('writeFile:', writeFile)
+        ).split('\n')
+        console.log('values:', values)
+        const write = core.getBooleanInput('write')
+        console.log('write:', write)
         const seperator = core.getInput('seperator', {
             required: true,
             trimWhitespace: false,
         })
         console.log('seperator:', seperator)
-
-        // Parse Keys
-        const keys = inputKeys.split('\n')
-        console.log('keys:', keys)
-
-        // Parse Values
-        const values = inputValues.split('\n')
-        console.log('values:', values)
 
         // Validate Inputs
         if (keys.length !== values.length) {
@@ -26841,7 +26834,7 @@ const fs = __nccwpck_require__(7147)
         }
 
         // Update JSON
-        const fileData = fs.readFileSync(inputFile)
+        const fileData = fs.readFileSync(file)
         const data = JSON.parse(fileData.toString())
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i]
@@ -26857,9 +26850,9 @@ const fs = __nccwpck_require__(7147)
         console.log('-'.repeat(40))
 
         // Write File
-        if (writeFile) {
-            core.info(`\u001b[32mWriting result to file: ${inputFile}`)
-            fs.writeFileSync(inputFile, result)
+        if (write) {
+            core.info(`\u001b[32mWriting result to file: ${file}`)
+            fs.writeFileSync(file, result)
         } else {
             core.info('\u001b[33mNot writing file because write is false.')
         }

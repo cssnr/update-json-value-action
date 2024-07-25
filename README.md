@@ -12,7 +12,7 @@
 Update JSON file Value(s) for Publishing.
 
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Arrays and Numbers are not yet supported.
+Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
 * [Inputs](#Inputs)
 * [Outputs](#Outputs)
