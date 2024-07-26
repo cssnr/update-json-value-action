@@ -21,8 +21,8 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 * [Contributing](#Contributing)
 
 > [!NOTE]  
-> Please submit a
-> [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
+> Please submit
+> a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
 > for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues) if you find any bugs.
 
 ## Inputs
@@ -48,6 +48,15 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 | output | description         |
 |--------|---------------------|
 | result | Updated JSON String |
+
+```yaml
+- name: 'Update JSON'
+  id: json
+  uses: cssnr/update-json-value-action@v1
+
+- name: "Echo Result"
+  run: echo '${{ steps.json.outputs.result }}'
+```
 
 ## Examples
 
@@ -91,17 +100,6 @@ Set a nested key and use file from different directory.
       meta.version
     values: |
       "Release ${{ github.ref_name }}"
-```
-
-Use the Output.
-
-```yaml
-- name: 'Update JSON'
-  id: json
-  uses: cssnr/update-json-value-action@v1
-
-- name: "Echo Result"
-  run: echo '${{ steps.json.outputs.result }}'
 ```
 
 # Support
