@@ -15,11 +15,11 @@ Update JSON file Value(s) for Publishing.
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
 Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
-* [Inputs](#Inputs)
-* [Outputs](#Outputs)
-* [Examples](#Examples)
-* [Support](#Support)
-* [Contributing](#Contributing)
+-   [Inputs](#Inputs)
+-   [Outputs](#Outputs)
+-   [Examples](#Examples)
+-   [Support](#Support)
+-   [Contributing](#Contributing)
 
 > [!NOTE]  
 > Please submit
@@ -29,7 +29,7 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 ## Inputs
 
 | input     | required | default            | description                       |
-|-----------|----------|--------------------|-----------------------------------|
+| --------- | -------- | ------------------ | --------------------------------- |
 | file      | No       | `manifest.json`    | JSON File Path                    |
 | keys      | No       | `version`          | JSON Keys to Update, One per Line |
 | values    | No       | `$GITHUB_REF_NAME` | Values to Update, One per Line    |
@@ -47,7 +47,7 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 ## Outputs
 
 | output | description         |
-|--------|---------------------|
+| ------ | ------------------- |
 | result | Updated JSON String |
 
 ```yaml
@@ -55,7 +55,7 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
   id: json
   uses: cssnr/update-json-value-action@v1
 
-- name: "Echo Result"
+- name: 'Echo Result'
   run: echo '${{ steps.json.outputs.result }}'
 ```
 
@@ -68,9 +68,9 @@ Same as above but manually setting values and only running on `release` events.
   uses: cssnr/update-json-value-action@v1
   if: ${{ github.event_name == 'release' }}
   with:
-    file: manifest.json
-    keys: version
-    values: ${{ github.ref_name }}
+      file: manifest.json
+      keys: version
+      values: ${{ github.ref_name }}
 ```
 
 Same as above but also setting an additional key value pair.
@@ -80,13 +80,13 @@ Same as above but also setting an additional key value pair.
   uses: cssnr/update-json-value-action@v1
   if: ${{ github.event_name == 'release' }}
   with:
-    file: manifest.json
-    keys: |
-      version
-      version_name
-    values: |
-      ${{ github.ref_name }}
-      "Release ${{ github.ref_name }}"
+      file: manifest.json
+      keys: |
+          version
+          version_name
+      values: |
+          ${{ github.ref_name }}
+          "Release ${{ github.ref_name }}"
 ```
 
 Set a nested key and use file from different directory.
@@ -96,26 +96,26 @@ Set a nested key and use file from different directory.
   uses: cssnr/update-json-value-action@v1
   if: ${{ github.event_name == 'release' }}
   with:
-    file: src/manifest.json
-    keys: |
-      meta.version
-    values: |
-      "Release ${{ github.ref_name }}"
+      file: src/manifest.json
+      keys: |
+          meta.version
+      values: |
+          "Release ${{ github.ref_name }}"
 ```
 
 # Support
 
 For general help or to request a feature, see:
 
-- Q&A Discussion: https://github.com/cssnr/update-json-value-action/discussions/categories/q-a
-- Request a Feature: https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests
+-   Q&A Discussion: https://github.com/cssnr/update-json-value-action/discussions/categories/q-a
+-   Request a Feature: https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests
 
 If you are experiencing an issue/bug or getting unexpected results, you can:
 
-- Report an Issue: https://github.com/cssnr/update-json-value-action/issues
-- Chat with us on Discord: https://discord.gg/wXy6m2X8wY
-- Provide General
-  Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=Update%20JSON%20Value)
+-   Report an Issue: https://github.com/cssnr/update-json-value-action/issues
+-   Chat with us on Discord: https://discord.gg/wXy6m2X8wY
+-   Provide General
+    Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=Update%20JSON%20Value)
 
 # Contributing
 
@@ -123,11 +123,12 @@ Currently, the best way to contribute to this project is to star this project on
 
 Additionally, you can support other GitHub Actions I have published:
 
-- [VirusTotal Action](https://github.com/cssnr/virustotal-action)
-- [Update Version Tags Action](https://github.com/cssnr/update-version-tags-action)
-- [Update JSON Value Action](https://github.com/cssnr/update-json-value-action)
-- [Parse Issue Form Action](https://github.com/cssnr/parse-issue-form-action)
-- [Portainer Stack Deploy](https://github.com/cssnr/portainer-stack-deploy-action)
-- [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action)
+-   [VirusTotal Action](https://github.com/cssnr/virustotal-action)
+-   [Update Version Tags Action](https://github.com/cssnr/update-version-tags-action)
+-   [Update JSON Value Action](https://github.com/cssnr/update-json-value-action)
+-   [Parse Issue Form Action](https://github.com/cssnr/parse-issue-form-action)
+-   [Mirror Repository Action](https://github.com/cssnr/mirror-repository-action)
+-   [Portainer Stack Deploy](https://github.com/cssnr/portainer-stack-deploy-action)
+-   [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action)
 
 For a full list of current projects to support visit: [https://cssnr.github.io/](https://cssnr.github.io/)
