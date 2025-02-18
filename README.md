@@ -1,4 +1,4 @@
-[![Tags](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/tags.yaml?logo=github&logoColor=white&label=tags)](https://github.com/cssnr/update-json-value-action/actions/workflows/tags.yaml)
+[![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&logoColor=white&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
 [![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&logoColor=white&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=github)](https://github.com/cssnr/update-json-value-action/releases/latest)
@@ -10,16 +10,16 @@
 
 # Update JSON Value Action
 
-Update JSON file Value(s) for Publishing.
-
-Zero configuration action to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
-
 - [Inputs](#Inputs)
 - [Outputs](#Outputs)
 - [Examples](#Examples)
 - [Support](#Support)
 - [Contributing](#Contributing)
+
+Update JSON file Value(s) for Publishing.
+
+Zero configuration action to update a `manifest.json` file `version` value to a release tag.
+Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
 > [!NOTE]  
 > Please submit

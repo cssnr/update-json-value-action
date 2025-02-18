@@ -27560,6 +27560,8 @@ const fs = __nccwpck_require__(9896)
 
 ;(async () => {
     try {
+        core.info('🏳️ Starting Update JSON Value Action')
+
         // Parse Inputs
         const file = core.getInput('file', { required: true })
         console.log('file:', file)
@@ -27608,6 +27610,8 @@ const fs = __nccwpck_require__(9896)
 
         // Set Output
         core.setOutput('result', JSON.stringify(data))
+
+        core.info('✅ \u001b[32;1mFinished Success')
     } catch (e) {
         core.debug(e)
         core.info(e.message)
