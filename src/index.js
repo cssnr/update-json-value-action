@@ -54,6 +54,19 @@ const fs = require('fs')
         // Set Output
         core.setOutput('result', JSON.stringify(data))
 
+        // Job Summary
+        core.info('📝 Writing Job Summary')
+        core.summary.addRaw('### Docker Tags Action', true)
+        core.summary.addTable([
+            [
+                { data: 'Key', header: true },
+                { data: 'Value', header: true },
+            ],
+            [{ data: 'key1' }, { data: 'value1' }],
+            [{ data: 'other.key2' }, { data: 'A Value With Spaces...' }],
+        ])
+        await core.summary.write()
+
         core.info('✅ \u001b[32;1mFinished Success')
     } catch (e) {
         core.debug(e)
