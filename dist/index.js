@@ -27617,16 +27617,12 @@ const fs = __nccwpck_require__(9896)
         core.info('📝 Writing Job Summary')
         const results = []
         keys.forEach((key, i) => {
-            results.push([{ data: key }, { data: values[i] }])
+            results.push([{ data: key }, { data: `<code>${values[i]}</code>` }])
         })
 
         core.summary.addRaw('### Update JSON Value Action\n')
         const icon = write ? '✔️' : '❌'
         core.summary.addRaw(`💾 ${icon} \`${file}\`\n`)
-
-        core.summary.addRaw('<details><summary>Results</summary>\n\n')
-        core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
-        core.summary.addRaw('\n\n</details>\n')
 
         core.summary.addRaw('<details><summary>Keys/Values</summary>')
         core.summary.addTable([
@@ -27637,6 +27633,10 @@ const fs = __nccwpck_require__(9896)
             ...results,
         ])
         core.summary.addRaw('</details>\n')
+
+        core.summary.addRaw('<details><summary>Results</summary>\n\n')
+        core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
+        core.summary.addRaw('\n\n</details>\n')
 
         core.summary.addRaw('<details><summary>Inputs</summary>')
         core.summary.addTable([
@@ -27652,7 +27652,7 @@ const fs = __nccwpck_require__(9896)
         ])
         core.summary.addRaw('</details>\n')
 
-        const text = 'View documentation, report issues or request features'
+        const text = 'View Documentation, Report Issues or Request Features'
         const link = 'https://github.com/cssnr/update-json-value-action'
         core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)`)
         await core.summary.write()

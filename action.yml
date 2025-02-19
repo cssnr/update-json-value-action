@@ -1,5 +1,5 @@
 name: "Update JSON Value Action"
-description: "Update JSON file Values for Publishing"
+description: "Update JSON file Key Values for Building or Publishing"
 author: "Shane"
 branding:
   icon: "code"

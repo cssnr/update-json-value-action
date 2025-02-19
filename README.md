@@ -16,7 +16,7 @@
 - [Support](#Support)
 - [Contributing](#Contributing)
 
-Update JSON file Value(s) for Publishing.
+Update JSON file Key Values for Building or Publishing.
 
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
 Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
@@ -38,6 +38,7 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 | summary   | No       | `true`             | Add Summary to Job \*  |
 
 **keys/values** - A newline delimited `|` list of keys/values to update, one per line.
+See [Examples](#Examples) for more details.
 
 **summary** - Write a Summary for the job. To disable this set to `false`.
 
