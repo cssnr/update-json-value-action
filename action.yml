@@ -25,6 +25,10 @@ inputs:
     description: "Nested Key Seperator"
     required: false
     default: "."
+  summary:
+    description: "Add Summary to Job"
+    required: false
+    default: "true"
 
 outputs:
   result:

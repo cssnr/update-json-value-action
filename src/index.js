@@ -21,6 +21,8 @@ const fs = require('fs')
             trimWhitespace: false,
         })
         console.log('seperator:', seperator)
+        const summary = core.getBooleanInput('summary')
+        console.log('summary:', summary)
 
         // Validate Inputs
         if (keys.length !== values.length) {
@@ -62,8 +64,13 @@ const fs = require('fs')
         })
 
         core.summary.addRaw('### Update JSON Value Action\n')
+        core.summary.addRaw(`Updated file: \`${file}\`\n`)
 
-        core.summary.addRaw('Parsed Keys and Values:\n')
+        core.summary.addRaw('<details><summary>Results</summary>')
+        core.summary.addRaw(`\n\`\`\`json\n${result}\n\`\`\`\n`)
+        core.summary.addRaw('</details>\n')
+
+        core.summary.addRaw('<details><summary>Keys/Values</summary>')
         core.summary.addTable([
             [
                 { data: 'Key', header: true },
@@ -71,6 +78,7 @@ const fs = require('fs')
             ],
             ...results,
         ])
+        core.summary.addRaw('</details>\n')
 
         core.summary.addRaw('<details><summary>Inputs</summary>')
         core.summary.addTable([
@@ -78,11 +86,11 @@ const fs = require('fs')
                 { data: 'Input', header: true },
                 { data: 'Value', header: true },
             ],
-            [{ data: 'file' }, { data: file }],
-            [{ data: 'keys' }, { data: keys.join(',') }],
-            [{ data: 'values' }, { data: values.join(',') }],
-            [{ data: 'write' }, { data: write }],
-            [{ data: 'seperator' }, { data: seperator }],
+            [{ data: 'file' }, { data: `<code>${file}</code>` }],
+            [{ data: 'keys' }, { data: `<code>${keys.join(',')}</code>` }],
+            [{ data: 'values' }, { data: `<code>${values.join(',')}</code>` }],
+            [{ data: 'write' }, { data: `<code>${write}</code>` }],
+            [{ data: 'seperator' }, { data: `<code>${seperator}</code>` }],
         ])
         core.summary.addRaw('</details>\n')
 

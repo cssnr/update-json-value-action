@@ -28,13 +28,28 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 
 ## Inputs
 
-| input     | required | default            | description                       |
-| --------- | -------- | ------------------ | --------------------------------- |
-| file      | No       | `manifest.json`    | JSON File Path                    |
-| keys      | No       | `version`          | JSON Keys to Update, One per Line |
-| values    | No       | `$GITHUB_REF_NAME` | Values to Update, One per Line    |
-| write     | No       | `true`             | Write Updates to `file`           |
-| seperator | No       | `.`                | Nested Key Seperator              |
+| input     | required | default            | description            |
+| --------- | -------- | ------------------ | ---------------------- |
+| file      | No       | `manifest.json`    | JSON File Path         |
+| keys      | No       | `version`          | JSON Keys to Update \* |
+| values    | No       | `$GITHUB_REF_NAME` | Values to Update \*    |
+| write     | No       | `true`             | Write Updates to file  |
+| seperator | No       | `.`                | Nested Key Seperator   |
+| summary   | No       | `true`             | Add Summary to Job \*  |
+
+**keys/values** - A newline delimited `|` list of keys/values to update, one per line.
+
+**summary** - Write a Summary for the job. To disable this set to `false`.
+
+<details><summary>📜 View Example Summary</summary>
+
+---
+
+Coming Soon...
+
+---
+
+</details>
 
 If no options are passed, it will update the `manifest.json` file's key `version` to the value of `GITHUB_REF_NAME`.  
 For multiple `keys` and `values` use new lines with a yaml `|`.
