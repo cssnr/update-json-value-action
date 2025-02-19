@@ -27613,7 +27613,8 @@ const fs = __nccwpck_require__(9896)
 
         // Job Summary
         core.info('📝 Writing Job Summary')
-        core.summary.addRaw('### Docker Tags Action', true)
+        core.summary.addRaw('### Update JSON Value Action\n')
+        core.summary.addRaw('<details><summary>Inputs</summary>')
         core.summary.addTable([
             [
                 { data: 'Key', header: true },
@@ -27622,6 +27623,7 @@ const fs = __nccwpck_require__(9896)
             [{ data: 'key1' }, { data: 'value1' }],
             [{ data: 'other.key2' }, { data: 'A Value With Spaces...' }],
         ])
+        core.summary.addRaw('</details>\n')
         await core.summary.write()
 
         core.info('✅ \u001b[32;1mFinished Success')
