@@ -46,7 +46,37 @@ See [Examples](#Examples) for more details.
 
 ---
 
-Coming Soon...
+💾 ✔️ `package.json`
+
+<details><summary>Keys/Values</summary><table><tr><th>Key</th><th>Value</th></tr><tr><td>name</td><td><code>test</code></td></tr><tr><td>scripts.lint</td><td><code>test</code></td></tr></table>
+</details>
+<details><summary>Results</summary>
+
+```json
+{
+  "name": "test",
+  "scripts": {
+    "build": "ncc build src/index.js",
+    "build:watch": "npm run build -- --watch",
+    "lint": "test"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@vercel/ncc": "^0.38.3",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.1"
+  }
+}
+```
+
+</details>
+<details><summary>Inputs</summary><table><tr><th>Input</th><th>Value</th></tr><tr><td>file</td><td><code>package.json</code></td></tr><tr><td>keys</td><td><code>name,scripts.lint</code></td></tr><tr><td>values</td><td><code>test,test</code></td></tr><tr><td>write</td><td><code>true</code></td></tr><tr><td>seperator</td><td><code>.</code></td></tr></table>
+</details>
 
 ---
 
