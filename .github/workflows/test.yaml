@@ -16,6 +16,10 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
+      #- name: "Debug event.json"
+      #  run: |
+      #    cat "${GITHUB_EVENT_PATH}"
+
       - name: "Test Local Action"
         id: test
         uses: ./
@@ -30,6 +34,7 @@ jobs:
 
       - name: "Verify JSON"
         uses: cssnr/json-key-value-check-action@v1
+        if: ${{ !github.event.act }}
         with:
           file: package.json
           keys: |

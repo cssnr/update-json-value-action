@@ -1,5 +1,5 @@
 name: "Update JSON Value Action"
-description: "Update JSON file Values for Publishing"
+description: "Update JSON file Key Values for Building or Publishing"
 author: "Shane"
 branding:
   icon: "code"
@@ -25,6 +25,10 @@ inputs:
     description: "Nested Key Seperator"
     required: false
     default: "."
+  summary:
+    description: "Add Summary to Job"
+    required: false
+    default: "true"
 
 outputs:
   result:

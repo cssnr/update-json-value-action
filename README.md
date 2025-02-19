@@ -1,4 +1,4 @@
-[![Tags](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/tags.yaml?logo=github&logoColor=white&label=tags)](https://github.com/cssnr/update-json-value-action/actions/workflows/tags.yaml)
+[![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&logoColor=white&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
 [![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&logoColor=white&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=github)](https://github.com/cssnr/update-json-value-action/releases/latest)
@@ -10,16 +10,16 @@
 
 # Update JSON Value Action
 
-Update JSON file Value(s) for Publishing.
-
-Zero configuration action to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
-
 - [Inputs](#Inputs)
 - [Outputs](#Outputs)
 - [Examples](#Examples)
 - [Support](#Support)
 - [Contributing](#Contributing)
+
+Update JSON file Key Values for Building or Publishing.
+
+Zero configuration action to update a `manifest.json` file `version` value to a release tag.
+Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
 > [!NOTE]  
 > Please submit
@@ -28,13 +28,59 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 
 ## Inputs
 
-| input     | required | default            | description                       |
-| --------- | -------- | ------------------ | --------------------------------- |
-| file      | No       | `manifest.json`    | JSON File Path                    |
-| keys      | No       | `version`          | JSON Keys to Update, One per Line |
-| values    | No       | `$GITHUB_REF_NAME` | Values to Update, One per Line    |
-| write     | No       | `true`             | Write Updates to `file`           |
-| seperator | No       | `.`                | Nested Key Seperator              |
+| input     | required | default            | description            |
+| --------- | -------- | ------------------ | ---------------------- |
+| file      | No       | `manifest.json`    | JSON File Path         |
+| keys      | No       | `version`          | JSON Keys to Update \* |
+| values    | No       | `$GITHUB_REF_NAME` | Values to Update \*    |
+| write     | No       | `true`             | Write Updates to file  |
+| seperator | No       | `.`                | Nested Key Seperator   |
+| summary   | No       | `true`             | Add Summary to Job \*  |
+
+**keys/values** - A newline delimited `|` list of keys/values to update, one per line.
+See [Examples](#Examples) for more details.
+
+**summary** - Write a Summary for the job. To disable this set to `false`.
+
+<details><summary>📜 View Example Summary</summary>
+
+---
+
+💾 ✔️ `package.json`
+
+<details><summary>Keys/Values</summary><table><tr><th>Key</th><th>Value</th></tr><tr><td>name</td><td><code>test</code></td></tr><tr><td>scripts.lint</td><td><code>test</code></td></tr></table>
+</details>
+<details><summary>Results</summary>
+
+```json
+{
+  "name": "test",
+  "scripts": {
+    "build": "ncc build src/index.js",
+    "build:watch": "npm run build -- --watch",
+    "lint": "test"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@vercel/ncc": "^0.38.3",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.1"
+  }
+}
+```
+
+</details>
+<details><summary>Inputs</summary><table><tr><th>Input</th><th>Value</th></tr><tr><td>file</td><td><code>package.json</code></td></tr><tr><td>keys</td><td><code>name,scripts.lint</code></td></tr><tr><td>values</td><td><code>test,test</code></td></tr><tr><td>write</td><td><code>true</code></td></tr><tr><td>seperator</td><td><code>.</code></td></tr></table>
+</details>
+
+---
+
+</details>
 
 If no options are passed, it will update the `manifest.json` file's key `version` to the value of `GITHUB_REF_NAME`.  
 For multiple `keys` and `values` use new lines with a yaml `|`.
@@ -123,13 +169,14 @@ Currently, the best way to contribute to this project is to star this project on
 
 Additionally, you can support other GitHub Actions I have published:
 
-- [VirusTotal Action](https://github.com/cssnr/virustotal-action)
-- [Update Version Tags Action](https://github.com/cssnr/update-version-tags-action)
-- [Update JSON Value Action](https://github.com/cssnr/update-json-value-action)
-- [Parse Issue Form Action](https://github.com/cssnr/parse-issue-form-action)
-- [Mirror Repository Action](https://github.com/cssnr/mirror-repository-action)
-- [Stack Deploy Action](https://github.com/cssnr/stack-deploy-action)
-- [Portainer Stack Deploy](https://github.com/cssnr/portainer-stack-deploy-action)
-- [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action)
+- [Stack Deploy Action](https://github.com/cssnr/stack-deploy-action?tab=readme-ov-file#readme)
+- [Portainer Stack Deploy](https://github.com/cssnr/portainer-stack-deploy-action?tab=readme-ov-file#readme)
+- [VirusTotal Action](https://github.com/cssnr/virustotal-action?tab=readme-ov-file#readme)
+- [Mirror Repository Action](https://github.com/cssnr/mirror-repository-action?tab=readme-ov-file#readme)
+- [Update Version Tags Action](https://github.com/cssnr/update-version-tags-action?tab=readme-ov-file#readme)
+- [Update JSON Value Action](https://github.com/cssnr/update-json-value-action?tab=readme-ov-file#readme)
+- [Parse Issue Form Action](https://github.com/cssnr/parse-issue-form-action?tab=readme-ov-file#readme)
+- [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action?tab=readme-ov-file#readme)
+- [Cloudflare Purge Cache Action](https://github.com/cssnr/cloudflare-purge-cache-action?tab=readme-ov-file#readme)
 
 For a full list of current projects to support visit: [https://cssnr.github.io/](https://cssnr.github.io/)
