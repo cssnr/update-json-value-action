@@ -27589,7 +27589,7 @@ const fs = __nccwpck_require__(9896)
 
         // Write File
         if (inputs.write) {
-            core.info(`💾 \u001b[32mWriring Results to File: ${inputs.file}`)
+            core.info(`💾 \u001b[32mWriring Results: ${inputs.file}`)
             fs.writeFileSync(inputs.file, result)
         } else {
             core.info('⏩ \u001b[33mSkipping Wriring File')
@@ -27656,7 +27656,6 @@ function parseInputs() {
 }
 
 async function writeSummary(inputs, result) {
-    core.info('📝 Writing Job Summary')
     const results = []
     inputs.keys.forEach((key, i) => {
         results.push([
