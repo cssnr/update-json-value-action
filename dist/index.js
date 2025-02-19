@@ -27621,11 +27621,12 @@ const fs = __nccwpck_require__(9896)
         })
 
         core.summary.addRaw('### Update JSON Value Action\n')
-        core.summary.addRaw(`Updated file: \`${file}\`\n`)
+        const icon = write ? '✔️' : '❌'
+        core.summary.addRaw(`💾 ${icon} \`${file}\`\n`)
 
-        core.summary.addRaw('<details><summary>Results</summary>')
-        core.summary.addRaw(`\n\`\`\`json\n${result}\n\`\`\`\n`)
-        core.summary.addRaw('</details>\n')
+        core.summary.addRaw('<details><summary>Results</summary>\n\n')
+        core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
+        core.summary.addRaw('\n\n</details>\n')
 
         core.summary.addRaw('<details><summary>Keys/Values</summary>')
         core.summary.addTable([
@@ -27651,9 +27652,6 @@ const fs = __nccwpck_require__(9896)
         ])
         core.summary.addRaw('</details>\n')
 
-        // core.summary.addRaw(
-        //     '\n[View documentation, report issues or request features](https://github.com/cssnr/update-json-value-action?tab=readme-ov-file#readme)'
-        // )
         const text = 'View documentation, report issues or request features'
         const link = 'https://github.com/cssnr/update-json-value-action'
         core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)`)
