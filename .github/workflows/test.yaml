@@ -34,6 +34,7 @@ jobs:
 
       - name: "Verify JSON"
         uses: cssnr/json-key-value-check-action@v1
+        if: ${{ !github.event.act }}
         with:
           file: package.json
           keys: |
