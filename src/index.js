@@ -56,17 +56,42 @@ const fs = require('fs')
 
         // Job Summary
         core.info('📝 Writing Job Summary')
+        const results = []
+        keys.forEach((key, i) => {
+            results.push([{ data: key }, { data: values[i] }])
+        })
+
         core.summary.addRaw('### Update JSON Value Action\n')
-        core.summary.addRaw('<details><summary>Inputs</summary>')
+
+        core.summary.addRaw('Parsed Keys and Values:\n')
         core.summary.addTable([
             [
                 { data: 'Key', header: true },
                 { data: 'Value', header: true },
             ],
-            [{ data: 'key1' }, { data: 'value1' }],
-            [{ data: 'other.key2' }, { data: 'A Value With Spaces...' }],
+            ...results,
+        ])
+
+        core.summary.addRaw('<details><summary>Inputs</summary>')
+        core.summary.addTable([
+            [
+                { data: 'Input', header: true },
+                { data: 'Value', header: true },
+            ],
+            [{ data: 'file' }, { data: file }],
+            [{ data: 'keys' }, { data: keys.join(',') }],
+            [{ data: 'values' }, { data: values.join(',') }],
+            [{ data: 'write' }, { data: write }],
+            [{ data: 'seperator' }, { data: seperator }],
         ])
         core.summary.addRaw('</details>\n')
+
+        // core.summary.addRaw(
+        //     '\n[View documentation, report issues or request features](https://github.com/cssnr/update-json-value-action?tab=readme-ov-file#readme)'
+        // )
+        const text = 'View documentation, report issues or request features'
+        const link = 'https://github.com/cssnr/update-json-value-action'
+        core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)`)
         await core.summary.write()
 
         core.info('✅ \u001b[32;1mFinished Success')
