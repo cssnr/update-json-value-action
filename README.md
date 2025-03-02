@@ -23,9 +23,9 @@ Zero configuration action to update a `manifest.json` file `version` value to a 
 Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
 > [!NOTE]  
-> Please submit
-> a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
-> for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues) if you find any bugs.
+> Please submit a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
+> for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues)
+> if you find any bugs.
 
 ## Inputs
 
@@ -80,6 +80,10 @@ See [Examples](#Examples) for more details.
 </details>
 
 ---
+
+To see a workflow run you can view a recent
+[test.yaml workflow run](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
+_(requires login)_.
 
 </details>
 
