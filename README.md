@@ -24,8 +24,7 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 
 > [!NOTE]  
 > Please submit a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
-> for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues)
-> if you find any bugs.
+> for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues) if you find any bugs.
 
 ## Inputs
 
