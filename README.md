@@ -81,8 +81,7 @@ See [Examples](#Examples) for more details.
 ---
 
 To see a workflow run you can view a recent
-[test.yaml run](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
-_(requires login)_.
+[test.yaml run](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) _(requires login)_.
 
 </details>
 
