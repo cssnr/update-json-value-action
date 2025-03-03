@@ -29,20 +29,20 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 ## Inputs
 
 | input     | required | default            | description            |
-| --------- | -------- | ------------------ | ---------------------- |
-| file      | No       | `manifest.json`    | JSON File Path         |
-| keys      | No       | `version`          | JSON Keys to Update \* |
-| values    | No       | `$GITHUB_REF_NAME` | Values to Update \*    |
-| write     | No       | `true`             | Write Updates to file  |
-| seperator | No       | `.`                | Nested Key Seperator   |
-| summary   | No       | `true`             | Add Summary to Job \*  |
+| --------- | :------: | ------------------ | ---------------------- |
+| file      |    -     | `manifest.json`    | JSON File Path         |
+| keys      |    -     | `version`          | JSON Keys to Update \* |
+| values    |    -     | `$GITHUB_REF_NAME` | Values to Update \*    |
+| write     |    -     | `true`             | Write Updates to file  |
+| seperator |    -     | `.`                | Nested Key Seperator   |
+| summary   |    -     | `true`             | Add Summary to Job \*  |
 
 **keys/values** - A newline delimited `|` list of keys/values to update, one per line.
 See [Examples](#Examples) for more details.
 
 **summary** - Write a Summary for the job. To disable this set to `false`.
 
-<details><summary>📜 View Example Summary</summary>
+<details><summary>👀 View Example Summary</summary>
 
 ---
 
