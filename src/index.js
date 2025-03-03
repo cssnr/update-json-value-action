@@ -98,6 +98,12 @@ function parseInputs() {
     }
 }
 
+/**
+ * @function writeSummary
+ * @param {Object} inputs
+ * @param {String} result
+ * @return {Promise<void>}
+ */
 async function writeSummary(inputs, result) {
     const results = []
     inputs.keys.forEach((key, i) => {

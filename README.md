@@ -1,5 +1,6 @@
 [![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&logoColor=white&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
 [![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&logoColor=white&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
+[![Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=github&logoColor=white&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=github)](https://github.com/cssnr/update-json-value-action/releases/latest)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/update-json-value-action?logo=github&logoColor=white&label=updated)](https://github.com/cssnr/update-json-value-action/graphs/commit-activity)
@@ -22,27 +23,26 @@ Zero configuration action to update a `manifest.json` file `version` value to a 
 Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
 > [!NOTE]  
-> Please submit
-> a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
+> Please submit a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
 > for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues) if you find any bugs.
 
 ## Inputs
 
 | input     | required | default            | description            |
-| --------- | -------- | ------------------ | ---------------------- |
-| file      | No       | `manifest.json`    | JSON File Path         |
-| keys      | No       | `version`          | JSON Keys to Update \* |
-| values    | No       | `$GITHUB_REF_NAME` | Values to Update \*    |
-| write     | No       | `true`             | Write Updates to file  |
-| seperator | No       | `.`                | Nested Key Seperator   |
-| summary   | No       | `true`             | Add Summary to Job \*  |
+| --------- | :------: | ------------------ | ---------------------- |
+| file      |    -     | `manifest.json`    | JSON File Path         |
+| keys      |    -     | `version`          | JSON Keys to Update \* |
+| values    |    -     | `$GITHUB_REF_NAME` | Values to Update \*    |
+| write     |    -     | `true`             | Write Updates to file  |
+| seperator |    -     | `.`                | Nested Key Seperator   |
+| summary   |    -     | `true`             | Add Summary to Job \*  |
 
 **keys/values** - A newline delimited `|` list of keys/values to update, one per line.
 See [Examples](#Examples) for more details.
 
 **summary** - Write a Summary for the job. To disable this set to `false`.
 
-<details><summary>📜 View Example Summary</summary>
+<details><summary>👀 View Example Summary</summary>
 
 ---
 
@@ -79,6 +79,9 @@ See [Examples](#Examples) for more details.
 </details>
 
 ---
+
+To see a workflow run you can view a recent
+[test.yaml run](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) _(requires login)_.
 
 </details>
 
@@ -176,7 +179,8 @@ Additionally, you can support other GitHub Actions I have published:
 - [Update Version Tags Action](https://github.com/cssnr/update-version-tags-action?tab=readme-ov-file#readme)
 - [Update JSON Value Action](https://github.com/cssnr/update-json-value-action?tab=readme-ov-file#readme)
 - [Parse Issue Form Action](https://github.com/cssnr/parse-issue-form-action?tab=readme-ov-file#readme)
-- [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action?tab=readme-ov-file#readme)
 - [Cloudflare Purge Cache Action](https://github.com/cssnr/cloudflare-purge-cache-action?tab=readme-ov-file#readme)
+- [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action?tab=readme-ov-file#readme)
+- [Docker Tags Action](https://github.com/cssnr/docker-tags-action?tab=readme-ov-file#readme)
 
 For a full list of current projects to support visit: [https://cssnr.github.io/](https://cssnr.github.io/)
