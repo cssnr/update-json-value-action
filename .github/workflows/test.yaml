@@ -48,7 +48,7 @@ jobs:
             test
 
       - name: "Schedule Failure Notification"
-        if: ${{ always() && github.event_name == 'schedule' && steps.verify.outcome != 'success' }}
+        if: ${{ failure() && github.event_name == 'schedule' }}
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}

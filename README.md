@@ -1,8 +1,10 @@
+[![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/tags)
+[![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/tags)
+[![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/releases/latest)
 [![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&logoColor=white&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
 [![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&logoColor=white&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
 [![Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=github&logoColor=white&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
-[![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=github)](https://github.com/cssnr/update-json-value-action/releases/latest)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/update-json-value-action?logo=github&logoColor=white&label=updated)](https://github.com/cssnr/update-json-value-action/graphs/commit-activity)
 [![Codeberg Last Commit](https://img.shields.io/gitea/last-commit/cssnr/update-json-value-action/master?gitea_url=https%3A%2F%2Fcodeberg.org%2F&logo=codeberg&logoColor=white&label=updated)](https://codeberg.org/cssnr/update-json-value-action)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/update-json-value-action?logo=htmx&logoColor=white)](https://github.com/cssnr/update-json-value-action)
@@ -14,6 +16,7 @@
 - [Inputs](#Inputs)
 - [Outputs](#Outputs)
 - [Examples](#Examples)
+- [Tags](#Tags)
 - [Support](#Support)
 - [Contributing](#Contributing)
 
@@ -28,19 +31,22 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 
 ## Inputs
 
-| input     | required | default            | description            |
-| --------- | :------: | ------------------ | ---------------------- |
-| file      |    -     | `manifest.json`    | JSON File Path         |
-| keys      |    -     | `version`          | JSON Keys to Update \* |
-| values    |    -     | `$GITHUB_REF_NAME` | Values to Update \*    |
-| write     |    -     | `true`             | Write Updates to file  |
-| seperator |    -     | `.`                | Nested Key Seperator   |
-| summary   |    -     | `true`             | Add Summary to Job \*  |
+| Input     | Req. | Default            | Description            |
+| :-------- | :--: | :----------------- | :--------------------- |
+| file      |  -   | `manifest.json`    | JSON File Path         |
+| keys      |  -   | `version`          | JSON Keys to Update \* |
+| values    |  -   | `$GITHUB_REF_NAME` | Values to Update \*    |
+| write     |  -   | `true`             | Write Updates to file  |
+| seperator |  -   | `.`                | Nested Key Seperator   |
+| summary   |  -   | `true`             | Add Summary to Job \*  |
 
 **keys/values** - A newline delimited `|` list of keys/values to update, one per line.
 See [Examples](#Examples) for more details.
 
 **summary** - Write a Summary for the job. To disable this set to `false`.
+
+To view a workflow run, click on a recent
+[Test](https://github.com/cssnr/portainer-stack-deploy-action/actions/workflows/test.yaml) job _(requires login)_.
 
 <details><summary>👀 View Example Summary</summary>
 
@@ -48,8 +54,7 @@ See [Examples](#Examples) for more details.
 
 💾 ✔️ `package.json`
 
-<details><summary>Keys/Values</summary><table><tr><th>Key</th><th>Value</th></tr><tr><td>name</td><td><code>test</code></td></tr><tr><td>scripts.lint</td><td><code>test</code></td></tr></table>
-</details>
+<details><summary>Keys/Values</summary><table><tr><th>Key</th><th>Value</th></tr><tr><td>name</td><td><code>test</code></td></tr><tr><td>scripts.lint</td><td><code>test</code></td></tr></table></details>
 <details><summary>Results</summary>
 
 ```json
@@ -75,13 +80,9 @@ See [Examples](#Examples) for more details.
 ```
 
 </details>
-<details><summary>Inputs</summary><table><tr><th>Input</th><th>Value</th></tr><tr><td>file</td><td><code>package.json</code></td></tr><tr><td>keys</td><td><code>name,scripts.lint</code></td></tr><tr><td>values</td><td><code>test,test</code></td></tr><tr><td>write</td><td><code>true</code></td></tr><tr><td>seperator</td><td><code>.</code></td></tr></table>
-</details>
+<details><summary>Inputs</summary><table><tr><th>Input</th><th>Value</th></tr><tr><td>file</td><td><code>package.json</code></td></tr><tr><td>keys</td><td><code>name,scripts.lint</code></td></tr><tr><td>values</td><td><code>test,test</code></td></tr><tr><td>write</td><td><code>true</code></td></tr><tr><td>seperator</td><td><code>.</code></td></tr></table></details>
 
 ---
-
-To see a workflow run you can view a recent
-[test.yaml run](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) _(requires login)_.
 
 </details>
 
@@ -95,8 +96,8 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 
 ## Outputs
 
-| output | description         |
-| ------ | ------------------- |
+| Output | Description         |
+| :----- | :------------------ |
 | result | Updated JSON String |
 
 ```yaml
@@ -110,7 +111,9 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 
 ## Examples
 
-Same as above but manually setting values and only running on `release` events.
+💡 _Click on an example heading to expand or collapse the example._
+
+<details open><summary>Manually setting values and only running on release events</summary>
 
 ```yaml
 - name: 'Update JSON'
@@ -122,7 +125,8 @@ Same as above but manually setting values and only running on `release` events.
     values: ${{ github.ref_name }}
 ```
 
-Same as above but also setting an additional key value pair.
+</details>
+<details><summary>Setting an additional key value pair</summary>
 
 ```yaml
 - name: 'Update JSON'
@@ -138,7 +142,8 @@ Same as above but also setting an additional key value pair.
       "Release ${{ github.ref_name }}"
 ```
 
-Set a nested key and use file from different directory.
+</details>
+<details><summary>Set a nested key and use file from different directory</summary>
 
 ```yaml
 - name: 'Update JSON'
@@ -152,6 +157,20 @@ Set a nested key and use file from different directory.
       "Release ${{ github.ref_name }}"
 ```
 
+</details>
+
+## Tags
+
+The following rolling [tags](https://github.com/cssnr/update-json-value-action/tags) are maintained.
+
+| Tag                                                                                                                                                                                                                                     | Example  | Target   | Bugs | Feat. | Description                                               |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------- | :------- | :--: | :---: | :-------------------------------------------------------- |
+| [![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&style=for-the-badge&label=%20&color=limegreen)](https://github.com/cssnr/update-json-value-action/releases/latest)     | `vN`     | `vN.x.x` |  ✅  |  ✅   | Includes new features but is always backwards compatible. |
+| [![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&style=for-the-badge&label=%20&color=yellowgreen)](https://github.com/cssnr/update-json-value-action/releases/latest) | `vN.N`   | `vN.N.x` |  ✅  |  ❌   | Only receives bug fixes. This is the most stable tag.     |
+| [![GitHub Release](https://img.shields.io/github/v/release/cssnr/update-json-value-action?style=for-the-badge&label=%20&color=orange)](https://github.com/cssnr/update-json-value-action/releases/latest)                               | `vN.N.N` | `vN.N.N` |  ❌  |  ❌   | Not a rolling tag. **Not** recommended.                   |
+
+You can view the release notes for each version on the [releases](https://github.com/cssnr/update-json-value-action/releases) page.
+
 # Support
 
 For general help or to request a feature, see:
@@ -163,12 +182,15 @@ If you are experiencing an issue/bug or getting unexpected results, you can:
 
 - Report an Issue: https://github.com/cssnr/update-json-value-action/issues
 - Chat with us on Discord: https://discord.gg/wXy6m2X8wY
-- Provide General
-  Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=Update%20JSON%20Value)
+- Provide General Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=Update%20JSON%20Value)
+
+For more information, see the CSSNR [SUPPORT.md](https://github.com/cssnr/.github/blob/master/.github/SUPPORT.md#support).
 
 # Contributing
 
 Currently, the best way to contribute to this project is to star this project on GitHub.
+
+For more information, see the CSSNR [SUPPORT.md](https://github.com/cssnr/.github/blob/master/.github/SUPPORT.md#support).
 
 Additionally, you can support other GitHub Actions I have published:
 
