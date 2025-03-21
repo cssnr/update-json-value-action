@@ -27573,6 +27573,7 @@ const fs = __nccwpck_require__(9896)
         }
 
         // Update JSON
+        core.startGroup('Processing')
         const fileData = fs.readFileSync(config.file)
         const data = JSON.parse(fileData.toString())
         for (let i = 0; i < config.keys.length; i++) {
@@ -27581,12 +27582,13 @@ const fs = __nccwpck_require__(9896)
             console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
             setNestedValue(data, key, value, config.seperator)
         }
+        core.endGroup() // Processing
 
         // Parse Result
-        core.startGroup('Result')
+        core.startGroup('Results')
         const result = JSON.stringify(data, null, 2)
         console.log(result)
-        core.endGroup() // Result
+        core.endGroup() // Results
 
         // Write File
         if (config.write) {
