@@ -27636,33 +27636,6 @@ function setNestedValue(obj, path, value, sep) {
 }
 
 /**
- * Get Config
- * @typedef {Object} Config
- * @property {String} file
- * @property {String[]} keys
- * @property {String[]} values
- * @property {Boolean} write
- * @property {String} seperator
- * @property {Boolean} summary
- * @return {Config}
- */
-function getConfig() {
-    const values = core.getInput('values') || process.env.GITHUB_REF_NAME
-    const seperator = core.getInput('seperator', {
-        required: true,
-        trimWhitespace: false,
-    })
-    return {
-        file: core.getInput('file', { required: true }),
-        keys: core.getInput('keys', { required: true }).split('\n'),
-        values: values.split('\n'),
-        write: core.getBooleanInput('write'),
-        seperator: seperator,
-        summary: core.getBooleanInput('summary'),
-    }
-}
-
-/**
  * @function writeSummary
  * @param {Config} config
  * @param {String} result
@@ -27716,6 +27689,33 @@ async function writeSummary(config, result) {
     const link = 'https://github.com/cssnr/update-json-value-action'
     core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)`)
     await core.summary.write()
+}
+
+/**
+ * Get Config
+ * @typedef {Object} Config
+ * @property {String} file
+ * @property {String[]} keys
+ * @property {String[]} values
+ * @property {Boolean} write
+ * @property {String} seperator
+ * @property {Boolean} summary
+ * @return {Config}
+ */
+function getConfig() {
+    const values = core.getInput('values') || process.env.GITHUB_REF_NAME
+    const seperator = core.getInput('seperator', {
+        required: true,
+        trimWhitespace: false,
+    })
+    return {
+        file: core.getInput('file', { required: true }),
+        keys: core.getInput('keys', { required: true }).split('\n'),
+        values: values.split('\n'),
+        write: core.getBooleanInput('write'),
+        seperator: seperator,
+        summary: core.getBooleanInput('summary'),
+    }
 }
 
 module.exports = __webpack_exports__;
