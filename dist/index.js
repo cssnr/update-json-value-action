@@ -27645,6 +27645,10 @@ function setNestedValue(obj, path, value, sep) {
  * @return {Promise<void>}
  */
 async function writeSummary(config, result) {
+    core.summary.addRaw('### Update JSON Value Action\n')
+    const icon = config.write ? '✔️' : '❌'
+    core.summary.addRaw(`💾 ${icon} \`${config.file}\`\n`)
+
     const results = []
     config.keys.forEach((key, i) => {
         results.push([
@@ -27652,11 +27656,6 @@ async function writeSummary(config, result) {
             { data: `<code>${config.values[i]}</code>` },
         ])
     })
-
-    core.summary.addRaw('### Update JSON Value Action\n')
-    const icon = config.write ? '✔️' : '❌'
-    core.summary.addRaw(`💾 ${icon} \`${config.file}\`\n`)
-
     core.summary.addRaw('<details><summary>Keys/Values</summary>')
     core.summary.addTable([
         [
@@ -27671,26 +27670,16 @@ async function writeSummary(config, result) {
     core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
     core.summary.addRaw('\n\n</details>\n')
 
-    core.summary.addRaw('<details><summary>config</summary>')
-    core.summary.addTable([
-        [
-            { data: 'Input', header: true },
-            { data: 'Value', header: true },
-        ],
-        [{ data: 'file' }, { data: `<code>${config.file}</code>` }],
-        [{ data: 'keys' }, { data: `<code>${config.keys.join(',')}</code>` }],
-        [
-            { data: 'values' },
-            { data: `<code>${config.values.join(',')}</code>` },
-        ],
-        [{ data: 'write' }, { data: `<code>${config.write}</code>` }],
-        [{ data: 'seperator' }, { data: `<code>${config.seperator}</code>` }],
-    ])
+    const yaml = Object.entries(config)
+        .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
+        .join('\n')
+    core.summary.addRaw('<details><summary>Config</summary>')
+    core.summary.addCodeBlock(yaml, 'yaml')
     core.summary.addRaw('</details>\n')
 
     const text = 'View Documentation, Report Issues or Request Features'
     const link = 'https://github.com/cssnr/update-json-value-action'
-    core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)`)
+    core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)\n\n---`)
     await core.summary.write()
 }
 
