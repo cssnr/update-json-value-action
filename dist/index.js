@@ -8803,7 +8803,7 @@ module.exports = {
 
 
 const { parseSetCookie } = __nccwpck_require__(8915)
-const { stringify, getHeadersList } = __nccwpck_require__(3834)
+const { stringify } = __nccwpck_require__(3834)
 const { webidl } = __nccwpck_require__(4222)
 const { Headers } = __nccwpck_require__(6349)
 
@@ -8879,14 +8879,13 @@ function getSetCookies (headers) {
 
   webidl.brandCheck(headers, Headers, { strict: false })
 
-  const cookies = getHeadersList(headers).cookies
+  const cookies = headers.getSetCookie()
 
   if (!cookies) {
     return []
   }
 
-  // In older versions of undici, cookies is a list of name:value.
-  return cookies.map((pair) => parseSetCookie(Array.isArray(pair) ? pair[1] : pair))
+  return cookies.map((pair) => parseSetCookie(pair))
 }
 
 /**
@@ -9314,14 +9313,15 @@ module.exports = {
 /***/ }),
 
 /***/ 3834:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module) => {
 
 "use strict";
 
 
-const assert = __nccwpck_require__(2613)
-const { kHeadersList } = __nccwpck_require__(6443)
-
+/**
+ * @param {string} value
+ * @returns {boolean}
+ */
 function isCTLExcludingHtab (value) {
   if (value.length === 0) {
     return false
@@ -9582,31 +9582,13 @@ function stringify (cookie) {
   return out.join('; ')
 }
 
-let kHeadersListNode
-
-function getHeadersList (headers) {
-  if (headers[kHeadersList]) {
-    return headers[kHeadersList]
-  }
-
-  if (!kHeadersListNode) {
-    kHeadersListNode = Object.getOwnPropertySymbols(headers).find(
-      (symbol) => symbol.description === 'headers list'
-    )
-
-    assert(kHeadersListNode, 'Headers cannot be parsed')
-  }
-
-  const headersList = headers[kHeadersListNode]
-  assert(headersList)
-
-  return headersList
-}
-
 module.exports = {
   isCTLExcludingHtab,
-  stringify,
-  getHeadersList
+  validateCookieName,
+  validateCookiePath,
+  validateCookieValue,
+  toIMFDate,
+  stringify
 }
 
 
@@ -13610,6 +13592,7 @@ const {
   isValidHeaderName,
   isValidHeaderValue
 } = __nccwpck_require__(5523)
+const util = __nccwpck_require__(9023)
 const { webidl } = __nccwpck_require__(4222)
 const assert = __nccwpck_require__(2613)
 
@@ -14163,6 +14146,9 @@ Object.defineProperties(Headers.prototype, {
   [Symbol.toStringTag]: {
     value: 'Headers',
     configurable: true
+  },
+  [util.inspect.custom]: {
+    enumerable: false
   }
 })
 
@@ -23339,6 +23325,20 @@ class Pool extends PoolBase {
       ? { ...options.interceptors }
       : undefined
     this[kFactory] = factory
+
+    this.on('connectionError', (origin, targets, error) => {
+      // If a connection error occurs, we remove the client from the pool,
+      // and emit a connectionError event. They will not be re-used.
+      // Fixes https://github.com/nodejs/undici/issues/3895
+      for (const target of targets) {
+        // Do not use kRemoveClient here, as it will close the client,
+        // but the client cannot be closed in this state.
+        const idx = this[kClients].indexOf(target)
+        if (idx !== -1) {
+          this[kClients].splice(idx, 1)
+        }
+      }
+    })
   }
 
   [kGetDispatcher] () {
@@ -27562,35 +27562,38 @@ const fs = __nccwpck_require__(9896)
     try {
         core.info('🏳️ Starting Update JSON Value Action')
 
-        // Parse Inputs
-        const inputs = parseInputs()
-        console.log('inputs:', inputs)
+        // Parse Config
+        const config = getConfig()
+        core.startGroup('Parsed Config')
+        console.log('config:', config)
+        core.endGroup() // Config
 
-        // Validate Inputs
-        if (inputs.keys.length !== inputs.values.length) {
+        if (config.keys.length !== config.values.length) {
             return core.setFailed('Keys and Values length are not equal.')
         }
 
-        // Update JSON: data
-        const fileData = fs.readFileSync(inputs.file)
+        // Update JSON
+        core.startGroup('Processing')
+        const fileData = fs.readFileSync(config.file)
         const data = JSON.parse(fileData.toString())
-        for (let i = 0; i < inputs.keys.length; i++) {
-            const key = inputs.keys[i]
-            const value = inputs.values[i]
-            console.log(`--- ${i + 1}: ${key}: ${value}`)
-            setNestedValue(data, key, value, inputs.seperator)
+        for (let i = 0; i < config.keys.length; i++) {
+            const key = config.keys[i]
+            const value = config.values[i]
+            console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
+            setNestedValue(data, key, value, config.seperator)
         }
+        core.endGroup() // Processing
 
-        // Display Result: result
+        // Parse Result
+        core.startGroup('Results')
         const result = JSON.stringify(data, null, 2)
-        console.log('-'.repeat(40))
         console.log(result)
-        console.log('-'.repeat(40))
+        core.endGroup() // Results
 
         // Write File
-        if (inputs.write) {
-            core.info(`💾 \u001b[32mWriring Results: ${inputs.file}`)
-            fs.writeFileSync(inputs.file, result)
+        if (config.write) {
+            core.info(`💾 Wriring Result: \u001b[32;1m${config.file}`)
+            fs.writeFileSync(config.file, result)
         } else {
             core.info('⏩ \u001b[33mSkipping Wriring File')
         }
@@ -27600,9 +27603,9 @@ const fs = __nccwpck_require__(9896)
         core.setOutput('result', JSON.stringify(data))
 
         // Job Summary
-        if (inputs.summary) {
+        if (config.summary) {
             core.info('📝 Writing Job Summary')
-            await writeSummary(inputs, result)
+            await writeSummary(config, result)
         } else {
             core.info('⏩ Skipping Job Summary')
         }
@@ -27636,44 +27639,23 @@ function setNestedValue(obj, path, value, sep) {
 }
 
 /**
- * @function parseInputs
- * @return {{file: string, keys: string[], values: string[], write: boolean, seperator: string, summary: boolean}}
- */
-function parseInputs() {
-    const values = core.getInput('values') || process.env.GITHUB_REF_NAME
-    const seperator = core.getInput('seperator', {
-        required: true,
-        trimWhitespace: false,
-    })
-    return {
-        file: core.getInput('file', { required: true }),
-        keys: core.getInput('keys', { required: true }).split('\n'),
-        values: values.split('\n'),
-        write: core.getBooleanInput('write'),
-        seperator: seperator,
-        summary: core.getBooleanInput('summary'),
-    }
-}
-
-/**
  * @function writeSummary
- * @param {Object} inputs
+ * @param {Config} config
  * @param {String} result
  * @return {Promise<void>}
  */
-async function writeSummary(inputs, result) {
+async function writeSummary(config, result) {
+    core.summary.addRaw('### Update JSON Value Action\n')
+    const icon = config.write ? '✔️' : '❌'
+    core.summary.addRaw(`💾 ${icon} \`${config.file}\`\n`)
+
     const results = []
-    inputs.keys.forEach((key, i) => {
+    config.keys.forEach((key, i) => {
         results.push([
             { data: key },
-            { data: `<code>${inputs.values[i]}</code>` },
+            { data: `<code>${config.values[i]}</code>` },
         ])
     })
-
-    core.summary.addRaw('### Update JSON Value Action\n')
-    const icon = inputs.write ? '✔️' : '❌'
-    core.summary.addRaw(`💾 ${icon} \`${inputs.file}\`\n`)
-
     core.summary.addRaw('<details><summary>Keys/Values</summary>')
     core.summary.addTable([
         [
@@ -27688,27 +27670,43 @@ async function writeSummary(inputs, result) {
     core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
     core.summary.addRaw('\n\n</details>\n')
 
-    core.summary.addRaw('<details><summary>Inputs</summary>')
-    core.summary.addTable([
-        [
-            { data: 'Input', header: true },
-            { data: 'Value', header: true },
-        ],
-        [{ data: 'file' }, { data: `<code>${inputs.file}</code>` }],
-        [{ data: 'keys' }, { data: `<code>${inputs.keys.join(',')}</code>` }],
-        [
-            { data: 'values' },
-            { data: `<code>${inputs.values.join(',')}</code>` },
-        ],
-        [{ data: 'write' }, { data: `<code>${inputs.write}</code>` }],
-        [{ data: 'seperator' }, { data: `<code>${inputs.seperator}</code>` }],
-    ])
+    const yaml = Object.entries(config)
+        .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
+        .join('\n')
+    core.summary.addRaw('<details><summary>Config</summary>')
+    core.summary.addCodeBlock(yaml, 'yaml')
     core.summary.addRaw('</details>\n')
 
     const text = 'View Documentation, Report Issues or Request Features'
     const link = 'https://github.com/cssnr/update-json-value-action'
-    core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)`)
+    core.summary.addRaw(`\n[${text}](${link}?tab=readme-ov-file#readme)\n\n---`)
     await core.summary.write()
+}
+
+/**
+ * Get Config
+ * @typedef {Object} Config
+ * @property {String} file
+ * @property {String[]} keys
+ * @property {String[]} values
+ * @property {Boolean} write
+ * @property {String} seperator
+ * @property {Boolean} summary
+ * @return {Config}
+ */
+function getConfig() {
+    const values = core.getInput('values') || process.env.GITHUB_REF_NAME
+    return {
+        file: core.getInput('file', { required: true }),
+        keys: core.getInput('keys', { required: true }).split('\n'),
+        values: values.split('\n'),
+        write: core.getBooleanInput('write'),
+        seperator: core.getInput('seperator', {
+            required: true,
+            trimWhitespace: false,
+        }),
+        summary: core.getBooleanInput('summary'),
+    }
 }
 
 module.exports = __webpack_exports__;

@@ -1,14 +1,15 @@
 [![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/tags)
 [![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/tags)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/releases/latest)
-[![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&logoColor=white&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
-[![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&logoColor=white&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
-[![Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=github&logoColor=white&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
+[![GitHub Dist Size](https://img.shields.io/github/size/cssnr/update-json-value-action/dist%2Findex.js?label=dist%20size)](https://github.com/cssnr/update-json-value-action/blob/master/src/index.js)
+[![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
+[![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
+[![Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=github&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/update-json-value-action?logo=github&logoColor=white&label=updated)](https://github.com/cssnr/update-json-value-action/graphs/commit-activity)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/update-json-value-action?logo=github&label=updated)](https://github.com/cssnr/update-json-value-action/graphs/commit-activity)
 [![Codeberg Last Commit](https://img.shields.io/gitea/last-commit/cssnr/update-json-value-action/master?gitea_url=https%3A%2F%2Fcodeberg.org%2F&logo=codeberg&logoColor=white&label=updated)](https://codeberg.org/cssnr/update-json-value-action)
-[![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/update-json-value-action?logo=htmx&logoColor=white)](https://github.com/cssnr/update-json-value-action)
-[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white)](https://cssnr.github.io/)
+[![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/update-json-value-action?logo=htmx)](https://github.com/cssnr/update-json-value-action)
+[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github)](https://cssnr.github.io/)
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
 
 # Update JSON Value Action
@@ -31,7 +32,7 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 
 ## Inputs
 
-| Input     | Req. | Default            | Description            |
+| Input     | Req. | Default&nbsp;Value | Input&nbsp;Description |
 | :-------- | :--: | :----------------- | :--------------------- |
 | file      |  -   | `manifest.json`    | JSON File Path         |
 | keys      |  -   | `version`          | JSON Keys to Update \* |
@@ -40,13 +41,12 @@ Allows setting multiple key/value pairs and setting nested keys. Currently only 
 | seperator |  -   | `.`                | Nested Key Seperator   |
 | summary   |  -   | `true`             | Add Summary to Job \*  |
 
-**keys/values** - A newline delimited `|` list of keys/values to update, one per line.
+**keys/values:** A newline delimited `|` list of keys/values to update, one per line.
 See [Examples](#Examples) for more details.
 
-**summary** - Write a Summary for the job. To disable this set to `false`.
+**summary:** Write a Summary for the job. To disable this set to `false`.
 
-To view a workflow run, click on a recent
-[Test](https://github.com/cssnr/portainer-stack-deploy-action/actions/workflows/test.yaml) job _(requires login)_.
+To view a workflow run, click on a recent [Test](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) job _(requires login)_.
 
 <details><summary>👀 View Example Summary</summary>
 
@@ -96,9 +96,9 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 
 ## Outputs
 
-| Output | Description         |
-| :----- | :------------------ |
-| result | Updated JSON String |
+| Output | Output&nbsp;Description |
+| :----- | :---------------------- |
+| result | Updated JSON String     |
 
 ```yaml
 - name: 'Update JSON'
@@ -159,17 +159,23 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 
 </details>
 
+For more examples, you can check out other projects using this action:  
+https://github.com/cssnr/update-json-value-action/network/dependents
+
 ## Tags
 
 The following rolling [tags](https://github.com/cssnr/update-json-value-action/tags) are maintained.
 
-| Tag                                                                                                                                                                                                                                     | Example  | Target   | Bugs | Feat. | Description                                               |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------- | :------- | :--: | :---: | :-------------------------------------------------------- |
-| [![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&style=for-the-badge&label=%20&color=limegreen)](https://github.com/cssnr/update-json-value-action/releases/latest)     | `vN`     | `vN.x.x` |  ✅  |  ✅   | Includes new features but is always backwards compatible. |
-| [![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&style=for-the-badge&label=%20&color=yellowgreen)](https://github.com/cssnr/update-json-value-action/releases/latest) | `vN.N`   | `vN.N.x` |  ✅  |  ❌   | Only receives bug fixes. This is the most stable tag.     |
-| [![GitHub Release](https://img.shields.io/github/v/release/cssnr/update-json-value-action?style=for-the-badge&label=%20&color=orange)](https://github.com/cssnr/update-json-value-action/releases/latest)                               | `vN.N.N` | `vN.N.N` |  ❌  |  ❌   | Not a rolling tag. **Not** recommended.                   |
+| Version&nbsp;Tag                                                                                                                                                                                                                 | Rolling | Bugs | Feat. |   Name    |  Target  | Example  |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----: | :--: | :---: | :-------: | :------: | :------- |
+| [![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&style=for-the-badge&label=%20&color=44cc10)](https://github.com/cssnr/update-json-value-action/releases/latest) |   ✅    |  ✅  |  ✅   | **Major** | `vN.x.x` | `vN`     |
+| [![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&style=for-the-badge&label=%20&color=blue)](https://github.com/cssnr/update-json-value-action/releases/latest) |   ✅    |  ✅  |  ❌   | **Minor** | `vN.N.x` | `vN.N`   |
+| [![GitHub Release](https://img.shields.io/github/v/release/cssnr/update-json-value-action?style=for-the-badge&label=%20&color=red)](https://github.com/cssnr/update-json-value-action/releases/latest)                           |   ❌    |  ❌  |  ❌   | **Micro** | `vN.N.N` | `vN.N.N` |
 
 You can view the release notes for each version on the [releases](https://github.com/cssnr/update-json-value-action/releases) page.
+
+The **Major** tag is recommended. It is the most up-to-date and always backwards compatible.
+Breaking changes would result in a **Major** version bump. At a minimum you should use a **Minor** tag.
 
 # Support
 
@@ -190,7 +196,7 @@ For more information, see the CSSNR [SUPPORT.md](https://github.com/cssnr/.githu
 
 Currently, the best way to contribute to this project is to star this project on GitHub.
 
-For more information, see the CSSNR [SUPPORT.md](https://github.com/cssnr/.github/blob/master/.github/SUPPORT.md#support).
+For more information, see the CSSNR [CONTRIBUTING.md](https://github.com/cssnr/.github/blob/master/.github/CONTRIBUTING.md#contributing).
 
 Additionally, you can support other GitHub Actions I have published:
 
@@ -204,5 +210,7 @@ Additionally, you can support other GitHub Actions I have published:
 - [Cloudflare Purge Cache Action](https://github.com/cssnr/cloudflare-purge-cache-action?tab=readme-ov-file#readme)
 - [Mozilla Addon Update Action](https://github.com/cssnr/mozilla-addon-update-action?tab=readme-ov-file#readme)
 - [Docker Tags Action](https://github.com/cssnr/docker-tags-action?tab=readme-ov-file#readme)
+- [Package Changelog Action](https://github.com/cssnr/package-changelog-action?tab=readme-ov-file#readme)
+- [NPM Outdated Check Action](https://github.com/cssnr/npm-outdated-action?tab=readme-ov-file#readme)
 
 For a full list of current projects to support visit: [https://cssnr.github.io/](https://cssnr.github.io/)
