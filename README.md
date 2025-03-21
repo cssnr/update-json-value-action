@@ -159,6 +159,9 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 
 </details>
 
+For more examples, you can check out other projects using this action:  
+https://github.com/cssnr/update-json-value-action/network/dependents
+
 ## Tags
 
 The following rolling [tags](https://github.com/cssnr/update-json-value-action/tags) are maintained.
