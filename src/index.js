@@ -11,12 +11,11 @@ const fs = require('fs')
         console.log('config:', config)
         core.endGroup() // Config
 
-        // Validate Config
         if (config.keys.length !== config.values.length) {
             return core.setFailed('Keys and Values length are not equal.')
         }
 
-        // Update JSON: data
+        // Update JSON
         const fileData = fs.readFileSync(config.file)
         const data = JSON.parse(fileData.toString())
         for (let i = 0; i < config.keys.length; i++) {
@@ -26,7 +25,7 @@ const fs = require('fs')
             setNestedValue(data, key, value, config.seperator)
         }
 
-        // Display Result: result
+        // Parse Result
         core.startGroup('Result')
         const result = JSON.stringify(data, null, 2)
         console.log(result)
@@ -34,7 +33,7 @@ const fs = require('fs')
 
         // Write File
         if (config.write) {
-            core.info(`💾 \u001b[32mWriring Results: ${config.file}`)
+            core.info(`💾 Wriring Result: \u001b[32;1m${config.file}`)
             fs.writeFileSync(config.file, result)
         } else {
             core.info('⏩ \u001b[33mSkipping Wriring File')
