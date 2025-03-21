@@ -96,9 +96,9 @@ For multiple `keys` and `values` use new lines with a yaml `|`.
 
 ## Outputs
 
-| Output | Description         |
-| :----- | :------------------ |
-| result | Updated JSON String |
+| Output | Output&nbsp;Description |
+| :----- | :---------------------- |
+| result | Updated JSON String     |
 
 ```yaml
 - name: 'Update JSON'

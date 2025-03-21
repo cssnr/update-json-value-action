@@ -7,7 +7,9 @@ const fs = require('fs')
 
         // Parse Config
         const config = getConfig()
+        core.startGroup('Parsed Config')
         console.log('config:', config)
+        core.endGroup() // Config
 
         // Validate Config
         if (config.keys.length !== config.values.length) {
@@ -20,15 +22,15 @@ const fs = require('fs')
         for (let i = 0; i < config.keys.length; i++) {
             const key = config.keys[i]
             const value = config.values[i]
-            console.log(`--- ${i + 1}: ${key}: ${value}`)
+            console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
             setNestedValue(data, key, value, config.seperator)
         }
 
         // Display Result: result
+        core.startGroup('Result')
         const result = JSON.stringify(data, null, 2)
-        console.log('-'.repeat(40))
         console.log(result)
-        console.log('-'.repeat(40))
+        core.endGroup() // Result
 
         // Write File
         if (config.write) {
@@ -147,16 +149,15 @@ async function writeSummary(config, result) {
  */
 function getConfig() {
     const values = core.getInput('values') || process.env.GITHUB_REF_NAME
-    const seperator = core.getInput('seperator', {
-        required: true,
-        trimWhitespace: false,
-    })
     return {
         file: core.getInput('file', { required: true }),
         keys: core.getInput('keys', { required: true }).split('\n'),
         values: values.split('\n'),
         write: core.getBooleanInput('write'),
-        seperator: seperator,
+        seperator: core.getInput('seperator', {
+            required: true,
+            trimWhitespace: false,
+        }),
         summary: core.getBooleanInput('summary'),
     }
 }
