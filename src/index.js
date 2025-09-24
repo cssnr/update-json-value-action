@@ -5,25 +5,25 @@ const fs = require('fs')
     try {
         core.info('🏳️ Starting Update JSON Value Action')
 
-        // Parse Config
-        const config = getConfig()
-        core.startGroup('Parsed Config')
-        console.log('config:', config)
-        core.endGroup() // Config
+        // Parse Inputs
+        const inputs = getInputs()
+        core.startGroup('Parsed Inputs')
+        console.log('inputs:', inputs)
+        core.endGroup() // Inputs
 
-        if (config.keys.length !== config.values.length) {
+        if (inputs.keys.length !== inputs.values.length) {
             return core.setFailed('Keys and Values length are not equal.')
         }
 
         // Update JSON
         core.startGroup('Processing')
-        const fileData = fs.readFileSync(config.file)
+        const fileData = fs.readFileSync(inputs.file)
         const data = JSON.parse(fileData.toString())
-        for (let i = 0; i < config.keys.length; i++) {
-            const key = config.keys[i]
-            const value = config.values[i]
+        for (let i = 0; i < inputs.keys.length; i++) {
+            const key = inputs.keys[i]
+            const value = inputs.values[i]
             console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
-            setNestedValue(data, key, value, config.seperator)
+            setNestedValue(data, key, value, inputs.seperator)
         }
         core.endGroup() // Processing
 
@@ -34,9 +34,9 @@ const fs = require('fs')
         core.endGroup() // Results
 
         // Write File
-        if (config.write) {
-            core.info(`💾 Wriring Result: \u001b[32;1m${config.file}`)
-            fs.writeFileSync(config.file, result)
+        if (inputs.write) {
+            core.info(`💾 Wriring Result: \u001b[32;1m${inputs.file}`)
+            fs.writeFileSync(inputs.file, result)
         } else {
             core.info('⏩ \u001b[33mSkipping Wriring File')
         }
@@ -46,9 +46,9 @@ const fs = require('fs')
         core.setOutput('result', JSON.stringify(data))
 
         // Job Summary
-        if (config.summary) {
+        if (inputs.summary) {
             core.info('📝 Writing Job Summary')
-            await writeSummary(config, result)
+            await writeSummary(inputs, result)
         } else {
             core.info('⏩ Skipping Job Summary')
         }
@@ -83,21 +83,18 @@ function setNestedValue(obj, path, value, sep) {
 
 /**
  * @function writeSummary
- * @param {Config} config
+ * @param {Inputs} inputs
  * @param {String} result
  * @return {Promise<void>}
  */
-async function writeSummary(config, result) {
+async function writeSummary(inputs, result) {
     core.summary.addRaw('### Update JSON Value Action\n')
-    const icon = config.write ? '✔️' : '❌'
-    core.summary.addRaw(`💾 ${icon} \`${config.file}\`\n`)
+    const icon = inputs.write ? '✔️' : '❌'
+    core.summary.addRaw(`💾 ${icon} \`${inputs.file}\`\n`)
 
     const results = []
-    config.keys.forEach((key, i) => {
-        results.push([
-            { data: key },
-            { data: `<code>${config.values[i]}</code>` },
-        ])
+    inputs.keys.forEach((key, i) => {
+        results.push([{ data: key }, { data: `<code>${inputs.values[i]}</code>` }])
     })
     core.summary.addRaw('<details><summary>Keys/Values</summary>')
     core.summary.addTable([
@@ -113,10 +110,10 @@ async function writeSummary(config, result) {
     core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
     core.summary.addRaw('\n\n</details>\n')
 
-    const yaml = Object.entries(config)
+    const yaml = Object.entries(inputs)
         .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
         .join('\n')
-    core.summary.addRaw('<details><summary>Config</summary>')
+    core.summary.addRaw('<details><summary>Inputs</summary>')
     core.summary.addCodeBlock(yaml, 'yaml')
     core.summary.addRaw('</details>\n')
 
@@ -127,17 +124,17 @@ async function writeSummary(config, result) {
 }
 
 /**
- * Get Config
- * @typedef {Object} Config
+ * Get Inputs
+ * @typedef {Object} Inputs
  * @property {String} file
  * @property {String[]} keys
  * @property {String[]} values
  * @property {Boolean} write
  * @property {String} seperator
  * @property {Boolean} summary
- * @return {Config}
+ * @return {Inputs}
  */
-function getConfig() {
+function getInputs() {
     const values = core.getInput('values') || process.env.GITHUB_REF_NAME
     return {
         file: core.getInput('file', { required: true }),
