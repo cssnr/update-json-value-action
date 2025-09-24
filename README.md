@@ -1,16 +1,20 @@
 [![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/tags)
-[![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/tags)
+[![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/releases)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/releases/latest)
-[![GitHub Dist Size](https://img.shields.io/github/size/cssnr/update-json-value-action/dist%2Findex.js?label=dist%20size)](https://github.com/cssnr/update-json-value-action/blob/master/src/index.js)
-[![Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=github&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
-[![Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=github&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
-[![Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=github&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
+[![GitHub Dist Size](https://img.shields.io/github/size/cssnr/update-json-value-action/dist%2Findex.js?logo=bookstack&logoColor=white&label=dist%20size)](https://github.com/cssnr/update-json-value-action/blob/master/src)
+[![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=cachet&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
+[![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
+[![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_update-json-value-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_update-json-value-action)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/update-json-value-action?logo=github&label=updated)](https://github.com/cssnr/update-json-value-action/graphs/commit-activity)
 [![Codeberg Last Commit](https://img.shields.io/gitea/last-commit/cssnr/update-json-value-action/master?gitea_url=https%3A%2F%2Fcodeberg.org%2F&logo=codeberg&logoColor=white&label=updated)](https://codeberg.org/cssnr/update-json-value-action)
+[![GitHub Contributors](https://img.shields.io/github/contributors/cssnr/update-json-value-action?logo=github)](https://github.com/cssnr/update-json-value-action/graphs/contributors)
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/cssnr/update-json-value-action?logo=bookstack&logoColor=white&label=repo%20size)](https://github.com/cssnr/update-json-value-action?tab=readme-ov-file#readme)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/update-json-value-action?logo=htmx)](https://github.com/cssnr/update-json-value-action)
-[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github)](https://cssnr.github.io/)
+[![GitHub Repo Stars](https://img.shields.io/github/stars/cssnr/upload-release-action?style=flat&logo=github)](https://github.com/cssnr/upload-release-action/stargazers)
+[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&label=org%20stars)](https://cssnr.github.io/)
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-72a5f2?logo=kofi&label=support)](https://ko-fi.com/cssnr)
 
 # Update JSON Value Action
 
@@ -194,9 +198,12 @@ For more information, see the CSSNR [SUPPORT.md](https://github.com/cssnr/.githu
 
 # Contributing
 
-Currently, the best way to contribute to this project is to star this project on GitHub.
+Please consider making a donation to support the development of this project
+and [additional](https://cssnr.com/) open source projects.
 
-For more information, see the CSSNR [CONTRIBUTING.md](https://github.com/cssnr/.github/blob/master/.github/CONTRIBUTING.md#contributing).
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/cssnr)
+
+If you would like to submit a PR, please review the [CONTRIBUTING.md](#contributing-ov-file).
 
 Additionally, you can support other GitHub Actions I have published:
 
@@ -212,5 +219,8 @@ Additionally, you can support other GitHub Actions I have published:
 - [Docker Tags Action](https://github.com/cssnr/docker-tags-action?tab=readme-ov-file#readme)
 - [Package Changelog Action](https://github.com/cssnr/package-changelog-action?tab=readme-ov-file#readme)
 - [NPM Outdated Check Action](https://github.com/cssnr/npm-outdated-action?tab=readme-ov-file#readme)
+- [Label Creator Action](https://github.com/cssnr/label-creator-action?tab=readme-ov-file#readme)
+- [Algolia Crawler Action](https://github.com/cssnr/algolia-crawler-action?tab=readme-ov-file#readme)
+- [Upload Release Action](https://github.com/cssnr/upload-release-action?tab=readme-ov-file#readme)
 
-For a full list of current projects to support visit: [https://cssnr.github.io/](https://cssnr.github.io/)
+For a full list of current projects visit: [https://cssnr.github.io/](https://cssnr.github.io/)
