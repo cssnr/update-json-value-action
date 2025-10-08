@@ -27722,20 +27722,21 @@ const merge = __nccwpck_require__(2569)
 
         // Update JSON
         let data
+        let sourceJson
         core.startGroup('Processing')
         if (inputs.json) {
             if (fs.existsSync(inputs.json)) {
-                core.info(`Parsing JSON File: ${inputs.json}`)
+                core.info(`Parsing JSON File: \u001b[32m${inputs.json}`)
                 const file = fs.readFileSync(inputs.json, 'utf8')
                 // console.log('file:', file)
-                const json = JSON.parse(file)
-                // console.log('json:', json)
-                data = merge(source, json)
+                sourceJson = JSON.parse(file)
+                console.log('sourceJson:', sourceJson)
+                data = merge(source, sourceJson)
             } else {
                 core.info('Parsing JSON String.')
-                const json = JSON.parse(inputs.json)
-                // console.log('json:', json)
-                data = merge(source, json)
+                sourceJson = JSON.parse(inputs.json)
+                console.log('sourceJson:', sourceJson)
+                data = merge(source, sourceJson)
             }
         } else {
             for (let i = 0; i < inputs.keys.length; i++) {
@@ -27771,7 +27772,7 @@ const merge = __nccwpck_require__(2569)
         if (inputs.summary) {
             core.info('📝 Writing Job Summary')
             try {
-                await writeSummary(inputs, result)
+                await writeSummary(inputs, result, sourceJson)
             } catch (e) {
                 console.log(e)
                 core.error(`Error writing Job Summary ${e.message}`)
@@ -27812,26 +27813,32 @@ function setNestedValue(obj, path, value, sep) {
  * @function writeSummary
  * @param {Inputs} inputs
  * @param {String} result
+ * @param {Object} [sourceJson]
  * @return {Promise<void>}
  */
-async function writeSummary(inputs, result) {
+async function writeSummary(inputs, result, sourceJson = null) {
     core.summary.addRaw('### Update JSON Value Action\n')
     const icon = inputs.write ? '✔️' : '❌'
     core.summary.addRaw(`💾 ${icon} \`${inputs.file}\`\n`)
 
-    const results = []
-    inputs.keys.forEach((key, i) => {
-        results.push([{ data: key }, { data: `<code>${inputs.values[i]}</code>` }])
-    })
-    core.summary.addRaw('<details><summary>Keys/Values</summary>')
-    core.summary.addTable([
-        [
-            { data: 'Key', header: true },
-            { data: 'Value', header: true },
-        ],
-        ...results,
-    ])
-    core.summary.addRaw('</details>\n')
+    if (sourceJson) {
+        core.summary.addRaw('<details><summary>Source JSON</summary>\n\n')
+        core.summary.addRaw(`\`\`\`json\n${JSON.stringify(sourceJson)}\n\`\`\``)
+    } else {
+        const results = []
+        inputs.keys.forEach((key, i) => {
+            results.push([{ data: key }, { data: `<code>${inputs.values[i]}</code>` }])
+        })
+        core.summary.addRaw('<details><summary>Keys/Values</summary>')
+        core.summary.addTable([
+            [
+                { data: 'Key', header: true },
+                { data: 'Value', header: true },
+            ],
+            ...results,
+        ])
+    }
+    core.summary.addRaw('\n\n</details>\n')
 
     core.summary.addRaw('<details><summary>Results</summary>\n\n')
     core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
