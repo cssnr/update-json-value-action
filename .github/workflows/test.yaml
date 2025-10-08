@@ -44,7 +44,6 @@ jobs:
 
       - name: "1: Verify Keys/Values"
         #if: ${{ !github.event.act }}
-        id: verify
         uses: cssnr/json-key-value-check-action@v1
         with:
           file: package.json
@@ -68,7 +67,6 @@ jobs:
 
       - name: "2: Verify JSON"
         #if: ${{ !github.event.act }}
-        id: verify
         uses: cssnr/json-key-value-check-action@v1
         with:
           file: package.json
