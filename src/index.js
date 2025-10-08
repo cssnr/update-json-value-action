@@ -74,7 +74,7 @@ const merge = require('deepmerge')
         if (inputs.summary) {
             core.info('📝 Writing Job Summary')
             try {
-                await writeSummary(inputs, result, sourceJson)
+                await writeSummary(inputs, sourceJson, result)
             } catch (e) {
                 console.log(e)
                 core.error(`Error writing Job Summary ${e.message}`)
@@ -114,11 +114,11 @@ function setNestedValue(obj, path, value, sep) {
 /**
  * @function writeSummary
  * @param {Inputs} inputs
+ * @param {Object} sourceJson
  * @param {String} result
- * @param {Object} [sourceJson]
  * @return {Promise<void>}
  */
-async function writeSummary(inputs, result, sourceJson = null) {
+async function writeSummary(inputs, sourceJson, result) {
     core.summary.addRaw('### Update JSON Value Action\n')
     const icon = inputs.write ? '✔️' : '❌'
     core.summary.addRaw(`💾 ${icon} \`${inputs.file}\`\n`)
