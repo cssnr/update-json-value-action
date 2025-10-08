@@ -178,7 +178,6 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
     file: src/manifest.json
     keys: |
@@ -193,7 +192,6 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
     file: package.json
     json: |
@@ -206,7 +204,6 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
     file: package.json
     json: out/source.json
