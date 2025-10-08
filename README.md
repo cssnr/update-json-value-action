@@ -32,6 +32,24 @@ Update JSON file Key Values for Building or Publishing.
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
 Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
 
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v1
+```
+
+Or set the file, keys, and values.
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v1
+  with:
+    file: package.json
+    keys: version
+    values: v1.0.0
+```
+
+See the [Inputs](#inputs) and [Examples](#examples) for more options.
+
 > [!NOTE]  
 > Please submit a [Feature Request](https://github.com/cssnr/update-json-value-action/discussions/categories/feature-requests)
 > for new features or [Open an Issue](https://github.com/cssnr/update-json-value-action/issues) if you find any bugs.
