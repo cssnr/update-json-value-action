@@ -61,15 +61,24 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 | file      | `manifest.json`    | JSON File Path                 |
 | keys      | `version`          | JSON Keys to Update            |
 | values    | `github.ref_name`  | Values to Update               |
-| json      | -                  | JSON Data to Merge             |
+| json      | -                  | JSON Data or File              |
 | write     | `true`             | Write Updates to file          |
 | seperator | `.`                | Nested Key Seperator           |
 | summary   | `true`             | Add Summary to Job             |
 
-**keys/values:** A newline delimited `|` list of keys/values to update, one per line.
+#### keys/values
+
+A newline delimited `|` list of keys/values to update, one per line.
 See [Examples](#Examples) for more details.
 
-**summary:** Write a Summary for the job. To disable this set to `false`.
+#### json
+
+Source JSON Data. This can be a JSON string, or a file path to a JSON file.  
+The data is merged using [deepmerge](https://github.com/TehShrike/deepmerge).
+
+#### summary
+
+Write a Summary for the job. To disable this set to `false`.
 
 To view a workflow run, click on a recent [Test](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) job _(requires login)_.
 
@@ -164,7 +173,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```
 
 </details>
-<details><summary>Set a nested key and use file from different directory</summary>
+<details><summary>Set a nested key w/ default seperator</summary>
 
 ```yaml
 - name: 'Update JSON'
@@ -179,7 +188,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```
 
 </details>
-<details><summary>Merge source JSON data</summary>
+<details><summary>Merge Source JSON data</summary>
 
 ```yaml
 - name: 'Update JSON'
@@ -189,6 +198,18 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
     file: package.json
     json: |
       {"scripts": {"test": "echo success"}}
+```
+
+</details>
+<details><summary>Merge Source JSON data File</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v1
+  if: ${{ github.event_name == 'release' }}
+  with:
+    file: package.json
+    json: out/source.json
 ```
 
 </details>

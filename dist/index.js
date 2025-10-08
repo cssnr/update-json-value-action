@@ -27724,9 +27724,19 @@ const merge = __nccwpck_require__(2569)
         let data
         core.startGroup('Processing')
         if (inputs.json) {
-            const json = JSON.parse(inputs.json)
-            console.log('json:', json)
-            data = merge(source, json)
+            if (fs.existsSync(inputs.json)) {
+                console.log(`Parsing JSON File: ${inputs.json}`)
+                const file = fs.readFileSync(inputs.json, 'utf8')
+                // console.log('file:', file)
+                const json = JSON.parse(file)
+                // console.log('json:', json)
+                data = merge(source, json)
+            } else {
+                console.log('Parsing JSON String.')
+                const json = JSON.parse(inputs.json)
+                // console.log('json:', json)
+                data = merge(source, json)
+            }
         } else {
             for (let i = 0; i < inputs.keys.length; i++) {
                 const key = inputs.keys[i]
@@ -27736,13 +27746,13 @@ const merge = __nccwpck_require__(2569)
             }
             data = source
         }
-        console.log('data:', data)
+        // console.log('data:', data)
         core.endGroup() // Processing
 
         // Parse Result
         core.startGroup('Results')
         const result = JSON.stringify(data, null, 2)
-        // console.log(result)
+        console.log(result)
         core.endGroup() // Results
 
         // Write File

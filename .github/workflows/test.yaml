@@ -50,20 +50,23 @@ jobs:
           keys: |
             name
             scripts.lint
+            scripts.prettier:write
           values: |
             test
             test
+            npx prettier --write .
 
       - name: "2: Test JSON"
         uses: ./
         with:
           summary: ${{ !github.event.act }}
           file: package.json
-          json: |
-            {
-              "devDependencies": {"prettier": "test"},
-              "scripts": {"build": "test"}
-            }
+          json: .github/test/source.json
+          #json: |
+          #  {
+          #    "devDependencies": {"prettier": "test"},
+          #    "scripts": {"build": "test"}
+          #  }
 
       - name: "2: Verify JSON"
         #if: ${{ !github.event.act }}
@@ -73,9 +76,11 @@ jobs:
           keys: |
             devDependencies.prettier
             scripts.build
+            scripts.prettier:write
           values: |
             test
             test
+            npx prettier --write .
 
       - name: "Schedule Failure Notification"
         if: ${{ failure() && github.event_name == 'schedule' }}
