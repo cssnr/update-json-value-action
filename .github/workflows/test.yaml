@@ -30,9 +30,22 @@ jobs:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
-      - name: "Test Local Action"
-        id: test
+      - name: "1: Test Keys/Values"
         uses: ./
+        with:
+          summary: ${{ !github.event.act }}
+          file: package.json
+          keys: |
+            name
+            scripts.lint
+          values: |
+            test
+            test
+
+      - name: "1: Verify Keys/Values"
+        #if: ${{ !github.event.act }}
+        id: verify
+        uses: cssnr/json-key-value-check-action@v1
         with:
           file: package.json
           keys: |
@@ -42,15 +55,26 @@ jobs:
             test
             test
 
-      - name: "Verify JSON"
-        if: ${{ !github.event.act }}
+      - name: "2: Test JSON"
+        uses: ./
+        with:
+          summary: ${{ !github.event.act }}
+          file: package.json
+          json: |
+            {
+              "devDependencies": {"prettier": "test"},
+              "scripts": {"build": "test"}
+            }
+
+      - name: "2: Verify JSON"
+        #if: ${{ !github.event.act }}
         id: verify
         uses: cssnr/json-key-value-check-action@v1
         with:
           file: package.json
           keys: |
-            name
-            scripts.lint
+            devDependencies.prettier
+            scripts.build
           values: |
             test
             test

@@ -8,26 +8,22 @@ branding:
 inputs:
   file:
     description: "JSON File"
-    required: false
     default: "manifest.json"
   keys:
     description: "Keys to Update"
-    required: false
     default: "version"
   values:
     description: "Values to Set"
-    required: false
+  json:
+    description: "JSON Date"
   write:
     description: "Write Result to File"
-    required: false
     default: "true"
   seperator:
     description: "Nested Key Seperator"
-    required: false
     default: "."
   summary:
     description: "Add Summary to Job"
-    required: false
     default: "true"
 
 outputs:

@@ -1,6 +1,8 @@
 const core = require('@actions/core')
 const fs = require('fs')
 
+const merge = require('deepmerge')
+
 ;(async () => {
     try {
         core.info('🏳️ Starting Update JSON Value Action')
@@ -15,22 +17,34 @@ const fs = require('fs')
             return core.setFailed('Keys and Values length are not equal.')
         }
 
-        // Update JSON
-        core.startGroup('Processing')
+        // Source Data
         const fileData = fs.readFileSync(inputs.file)
-        const data = JSON.parse(fileData.toString())
-        for (let i = 0; i < inputs.keys.length; i++) {
-            const key = inputs.keys[i]
-            const value = inputs.values[i]
-            console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
-            setNestedValue(data, key, value, inputs.seperator)
+        const source = JSON.parse(fileData.toString())
+        console.log('source:', source)
+
+        // Update JSON
+        let data
+        core.startGroup('Processing')
+        if (inputs.json) {
+            const json = JSON.parse(inputs.json)
+            console.log('json:', json)
+            data = merge(source, json)
+        } else {
+            for (let i = 0; i < inputs.keys.length; i++) {
+                const key = inputs.keys[i]
+                const value = inputs.values[i]
+                console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
+                setNestedValue(source, key, value, inputs.seperator)
+            }
+            data = source
         }
+        console.log('data:', data)
         core.endGroup() // Processing
 
         // Parse Result
         core.startGroup('Results')
         const result = JSON.stringify(data, null, 2)
-        console.log(result)
+        // console.log(result)
         core.endGroup() // Results
 
         // Write File
@@ -134,6 +148,7 @@ async function writeSummary(inputs, result) {
  * @property {String} file
  * @property {String[]} keys
  * @property {String[]} values
+ * @property {String} json
  * @property {Boolean} write
  * @property {String} seperator
  * @property {Boolean} summary
@@ -145,6 +160,7 @@ function getInputs() {
         file: core.getInput('file', { required: true }),
         keys: core.getInput('keys', { required: true }).split('\n'),
         values: values.split('\n'),
+        json: core.getInput('json'),
         write: core.getBooleanInput('write'),
         seperator: core.getInput('seperator', {
             required: true,

@@ -30,7 +30,7 @@
 Update JSON file Key Values for Building or Publishing.
 
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
+Allows setting multiple key/value pairs, setting nested keys, and merging from source JSON data.
 
 ```yaml
 - name: 'Update JSON'
@@ -61,6 +61,7 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 | file      | `manifest.json`    | JSON File Path                 |
 | keys      | `version`          | JSON Keys to Update            |
 | values    | `github.ref_name`  | Values to Update               |
+| json      | -                  | JSON Data to Merge             |
 | write     | `true`             | Write Updates to file          |
 | seperator | `.`                | Nested Key Seperator           |
 | summary   | `true`             | Add Summary to Job             |
@@ -136,12 +137,11 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 💡 _Click on an example heading to expand or collapse the example._
 
-<details open><summary>Manually setting values and only running on release events</summary>
+<details open><summary>Manually set file, key and value</summary>
 
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
     file: manifest.json
     keys: version
@@ -154,9 +154,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
-    file: manifest.json
     keys: |
       version
       version_name
@@ -178,6 +176,19 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
       meta.version
     values: |
       "Release ${{ github.ref_name }}"
+```
+
+</details>
+<details><summary>Merge source JSON data</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v1
+  if: ${{ github.event_name == 'release' }}
+  with:
+    file: package.json
+    json: |
+      {"scripts": {"test": "echo success"}}
 ```
 
 </details>
