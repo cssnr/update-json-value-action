@@ -27605,9 +27605,12 @@ const fs = __nccwpck_require__(9896)
         // Job Summary
         if (inputs.summary) {
             core.info('📝 Writing Job Summary')
-            await writeSummary(inputs, result)
-        } else {
-            core.info('⏩ Skipping Job Summary')
+            try {
+                await writeSummary(inputs, result)
+            } catch (e) {
+                console.log(e)
+                core.error(`Error writing Job Summary ${e.message}`)
+            }
         }
 
         core.info('✅ \u001b[32;1mFinished Success')

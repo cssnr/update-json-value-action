@@ -48,7 +48,12 @@ const fs = require('fs')
         // Job Summary
         if (inputs.summary) {
             core.info('📝 Writing Job Summary')
-            await writeSummary(inputs, result)
+            try {
+                await writeSummary(inputs, result)
+            } catch (e) {
+                console.log(e)
+                core.error(`Error writing Job Summary ${e.message}`)
+            }
         } else {
             core.info('⏩ Skipping Job Summary')
         }
