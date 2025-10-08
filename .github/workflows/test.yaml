@@ -30,10 +30,10 @@ jobs:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
-      - name: "Test Local Action"
-        id: test
+      - name: "1: Test Keys/Values"
         uses: ./
         with:
+          summary: ${{ !github.event.act }}
           file: package.json
           keys: |
             name
@@ -42,18 +42,45 @@ jobs:
             test
             test
 
-      - name: "Verify JSON"
-        if: ${{ !github.event.act }}
-        id: verify
+      - name: "1: Verify Keys/Values"
+        #if: ${{ !github.event.act }}
         uses: cssnr/json-key-value-check-action@v1
         with:
           file: package.json
           keys: |
             name
             scripts.lint
+            scripts.prettier:write
           values: |
             test
             test
+            npx prettier --write .
+
+      - name: "2: Test JSON"
+        uses: ./
+        with:
+          summary: ${{ !github.event.act }}
+          file: package.json
+          json: .github/test/source.json
+          #json: |
+          #  {
+          #    "devDependencies": {"prettier": "test"},
+          #    "scripts": {"build": "test"}
+          #  }
+
+      - name: "2: Verify JSON"
+        #if: ${{ !github.event.act }}
+        uses: cssnr/json-key-value-check-action@v1
+        with:
+          file: package.json
+          keys: |
+            devDependencies.prettier
+            scripts.build
+            scripts.prettier:write
+          values: |
+            test
+            test
+            npx prettier --write .
 
       - name: "Schedule Failure Notification"
         if: ${{ failure() && github.event_name == 'schedule' }}

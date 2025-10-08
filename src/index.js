@@ -1,6 +1,8 @@
 const core = require('@actions/core')
 const fs = require('fs')
 
+const merge = require('deepmerge')
+
 ;(async () => {
     try {
         core.info('🏳️ Starting Update JSON Value Action')
@@ -15,16 +17,39 @@ const fs = require('fs')
             return core.setFailed('Keys and Values length are not equal.')
         }
 
+        // Source Data
+        const sourceData = fs.readFileSync(inputs.file, 'utf8')
+        const source = JSON.parse(sourceData)
+        // console.log('source:', source)
+
         // Update JSON
+        let data
+        let sourceJson
         core.startGroup('Processing')
-        const fileData = fs.readFileSync(inputs.file)
-        const data = JSON.parse(fileData.toString())
-        for (let i = 0; i < inputs.keys.length; i++) {
-            const key = inputs.keys[i]
-            const value = inputs.values[i]
-            console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
-            setNestedValue(data, key, value, inputs.seperator)
+        if (inputs.json) {
+            if (fs.existsSync(inputs.json)) {
+                core.info(`Parsing JSON File: \u001b[32m${inputs.json}`)
+                const file = fs.readFileSync(inputs.json, 'utf8')
+                // console.log('file:', file)
+                sourceJson = JSON.parse(file)
+                console.log('sourceJson:', sourceJson)
+                data = merge(source, sourceJson)
+            } else {
+                core.info('Parsing JSON String.')
+                sourceJson = JSON.parse(inputs.json)
+                console.log('sourceJson:', sourceJson)
+                data = merge(source, sourceJson)
+            }
+        } else {
+            for (let i = 0; i < inputs.keys.length; i++) {
+                const key = inputs.keys[i]
+                const value = inputs.values[i]
+                console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
+                setNestedValue(source, key, value, inputs.seperator)
+            }
+            data = source
         }
+        // console.log('data:', data)
         core.endGroup() // Processing
 
         // Parse Result
@@ -49,7 +74,7 @@ const fs = require('fs')
         if (inputs.summary) {
             core.info('📝 Writing Job Summary')
             try {
-                await writeSummary(inputs, result)
+                await writeSummary(inputs, sourceJson, result)
             } catch (e) {
                 console.log(e)
                 core.error(`Error writing Job Summary ${e.message}`)
@@ -89,27 +114,34 @@ function setNestedValue(obj, path, value, sep) {
 /**
  * @function writeSummary
  * @param {Inputs} inputs
+ * @param {Object} sourceJson
  * @param {String} result
  * @return {Promise<void>}
  */
-async function writeSummary(inputs, result) {
+async function writeSummary(inputs, sourceJson, result) {
     core.summary.addRaw('### Update JSON Value Action\n')
     const icon = inputs.write ? '✔️' : '❌'
     core.summary.addRaw(`💾 ${icon} \`${inputs.file}\`\n`)
 
-    const results = []
-    inputs.keys.forEach((key, i) => {
-        results.push([{ data: key }, { data: `<code>${inputs.values[i]}</code>` }])
-    })
-    core.summary.addRaw('<details><summary>Keys/Values</summary>')
-    core.summary.addTable([
-        [
-            { data: 'Key', header: true },
-            { data: 'Value', header: true },
-        ],
-        ...results,
-    ])
-    core.summary.addRaw('</details>\n')
+    if (sourceJson) {
+        const json = JSON.stringify(sourceJson, null, 2)
+        core.summary.addRaw('<details><summary>Source JSON</summary>\n\n')
+        core.summary.addRaw(`\`\`\`json\n${json}\n\`\`\``)
+    } else {
+        const results = []
+        inputs.keys.forEach((key, i) => {
+            results.push([{ data: key }, { data: `<code>${inputs.values[i]}</code>` }])
+        })
+        core.summary.addRaw('<details><summary>Keys/Values</summary>')
+        core.summary.addTable([
+            [
+                { data: 'Key', header: true },
+                { data: 'Value', header: true },
+            ],
+            ...results,
+        ])
+    }
+    core.summary.addRaw('\n\n</details>\n')
 
     core.summary.addRaw('<details><summary>Results</summary>\n\n')
     core.summary.addRaw(`\`\`\`json\n${result}\n\`\`\``)
@@ -134,6 +166,7 @@ async function writeSummary(inputs, result) {
  * @property {String} file
  * @property {String[]} keys
  * @property {String[]} values
+ * @property {String} json
  * @property {Boolean} write
  * @property {String} seperator
  * @property {Boolean} summary
@@ -145,6 +178,7 @@ function getInputs() {
         file: core.getInput('file', { required: true }),
         keys: core.getInput('keys', { required: true }).split('\n'),
         values: values.split('\n'),
+        json: core.getInput('json'),
         write: core.getBooleanInput('write'),
         seperator: core.getInput('seperator', {
             required: true,

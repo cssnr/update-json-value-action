@@ -30,7 +30,7 @@
 Update JSON file Key Values for Building or Publishing.
 
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
+Allows setting multiple key/value pairs, setting nested keys, and merging from source JSON data.
 
 ```yaml
 - name: 'Update JSON'
@@ -61,14 +61,49 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 | file      | `manifest.json`    | JSON File Path                 |
 | keys      | `version`          | JSON Keys to Update            |
 | values    | `github.ref_name`  | Values to Update               |
+| json      | -                  | JSON Data or File              |
 | write     | `true`             | Write Updates to file          |
 | seperator | `.`                | Nested Key Seperator           |
 | summary   | `true`             | Add Summary to Job             |
 
-**keys/values:** A newline delimited `|` list of keys/values to update, one per line.
-See [Examples](#Examples) for more details.
+#### keys/values
 
-**summary:** Write a Summary for the job. To disable this set to `false`.
+List of keys and values to update, one per line.
+
+<details><summary>View Keys/Values Example.</summary>
+
+Single Key and Value.
+
+```yaml
+with:
+  keys: version
+  values: v1.0.0
+```
+
+Multiple Keys and Values.
+
+```yaml
+with:
+  keys: |
+    version
+    scripts.test
+  values: |
+    v1.0.0
+    echo success
+```
+
+</details>
+
+See the [Examples](#Examples) for more details.
+
+#### json
+
+Source JSON Data or File. This can be a JSON string, or a file path to a JSON file.  
+The data is merged using [deepmerge](https://github.com/TehShrike/deepmerge).
+
+#### summary
+
+Write a Summary for the job. To disable this set to `false`.
 
 To view a workflow run, click on a recent [Test](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) job _(requires login)_.
 
@@ -136,12 +171,11 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 💡 _Click on an example heading to expand or collapse the example._
 
-<details open><summary>Manually setting values and only running on release events</summary>
+<details open><summary>Manually set file, key and value</summary>
 
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
     file: manifest.json
     keys: version
@@ -154,9 +188,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
-    file: manifest.json
     keys: |
       version
       version_name
@@ -166,18 +198,40 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```
 
 </details>
-<details><summary>Set a nested key and use file from different directory</summary>
+<details><summary>Set a nested key w/ default seperator</summary>
 
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
   with:
     file: src/manifest.json
     keys: |
       meta.version
     values: |
       "Release ${{ github.ref_name }}"
+```
+
+</details>
+<details><summary>Merge Source JSON data</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v1
+  with:
+    file: package.json
+    json: |
+      {"scripts": {"test": "echo success"}}
+```
+
+</details>
+<details><summary>Merge Source JSON data File</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v1
+  with:
+    file: package.json
+    json: out/source.json
 ```
 
 </details>
