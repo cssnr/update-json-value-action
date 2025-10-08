@@ -68,12 +68,37 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 
 #### keys/values
 
-A newline delimited `|` list of keys/values to update, one per line.
-See [Examples](#Examples) for more details.
+List of keys and values to update, one per line.
+
+<details><summary>View Keys/Values Example.</summary>
+
+Single Key and Value.
+
+```yaml
+with:
+  keys: version
+  values: v1.0.0
+```
+
+Multiple Keys and Values.
+
+```yaml
+with:
+  keys: |
+    version
+    scripts.test
+  values: |
+    v1.0.0
+    echo success
+```
+
+</details>
+
+See the [Examples](#Examples) for more details.
 
 #### json
 
-Source JSON Data. This can be a JSON string, or a file path to a JSON file.  
+Source JSON Data or File. This can be a JSON string, or a file path to a JSON file.  
 The data is merged using [deepmerge](https://github.com/TehShrike/deepmerge).
 
 #### summary
