@@ -18,8 +18,8 @@ const merge = require('deepmerge')
         }
 
         // Source Data
-        const fileData = fs.readFileSync(inputs.file)
-        const source = JSON.parse(fileData.toString())
+        const sourceData = fs.readFileSync(inputs.file, 'utf8')
+        const source = JSON.parse(sourceData)
         // console.log('source:', source)
 
         // Update JSON
@@ -27,14 +27,14 @@ const merge = require('deepmerge')
         core.startGroup('Processing')
         if (inputs.json) {
             if (fs.existsSync(inputs.json)) {
-                console.log(`Parsing JSON File: ${inputs.json}`)
+                core.info(`Parsing JSON File: ${inputs.json}`)
                 const file = fs.readFileSync(inputs.json, 'utf8')
                 // console.log('file:', file)
                 const json = JSON.parse(file)
                 // console.log('json:', json)
                 data = merge(source, json)
             } else {
-                console.log('Parsing JSON String.')
+                core.info('Parsing JSON String.')
                 const json = JSON.parse(inputs.json)
                 // console.log('json:', json)
                 data = merge(source, json)
