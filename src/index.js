@@ -124,8 +124,9 @@ async function writeSummary(inputs, result, sourceJson = null) {
     core.summary.addRaw(`💾 ${icon} \`${inputs.file}\`\n`)
 
     if (sourceJson) {
+        const json = JSON.stringify(sourceJson, null, 2)
         core.summary.addRaw('<details><summary>Source JSON</summary>\n\n')
-        core.summary.addRaw(`\`\`\`json\n${JSON.stringify(sourceJson)}\n\`\`\``)
+        core.summary.addRaw(`\`\`\`json\n${json}\n\`\`\``)
     } else {
         const results = []
         inputs.keys.forEach((key, i) => {
