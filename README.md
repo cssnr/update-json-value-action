@@ -60,7 +60,7 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 | :-------- | :----------------- | :----------------------------- |
 | file      | `manifest.json`    | JSON File Path                 |
 | keys      | `version`          | JSON Keys to Update            |
-| values    | `$GITHUB_REF_NAME` | Values to Update               |
+| values    | `github.ref_name`  | Values to Update               |
 | write     | `true`             | Write Updates to file          |
 | seperator | `.`                | Nested Key Seperator           |
 | summary   | `true`             | Add Summary to Job             |
@@ -110,8 +110,7 @@ To view a workflow run, click on a recent [Test](https://github.com/cssnr/update
 
 </details>
 
-If no options are passed, it will update the `manifest.json` file's key `version` to the value of `GITHUB_REF_NAME`.  
-For multiple `keys` and `values` use new lines with a yaml `|`.
+If no options are passed, the `manifest.json` file's `version` key is updated to the `${{ github.ref_name }}`.
 
 ```yaml
 - name: 'Update JSON'
