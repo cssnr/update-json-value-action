@@ -55,7 +55,7 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 | [keys](#keysvalues)   | `version`          | Keys to Update                       |
 | [values](#keysvalues) | `github.ref_name`  | Values to Set                        |
 | [write](#write)       | `true`             | Write Updates to [file](#file)       |
-| [output](#output)     | [file](#file)      | Write to a different file.           |
+| [output](#output)     | _[file](#file)_    | Write to a different file.           |
 | `seperator`           | `.`                | Nested [keys](#keysvalues) Seperator |
 | [summary](#summary)   | `true`             | Add Summary to Job                   |
 
@@ -142,8 +142,8 @@ See the [Examples](#Examples) for more details.
 This input is omitted when providing [data](#data).
 If you omit these inputs, it will update the `version` key to the `ref_name` of the workflow.
 
-Default key: `version`
-Default val: `${{ github.ref_name }}`
+Default **keys**: `version`  
+Default **values**: `${{ github.ref_name }}`
 
 Alternatively, you can provide data as a JSON/YAML string, see [data](#data).
 
@@ -160,7 +160,7 @@ Default: `true`
 To [write](#write) the results to a different [file](#file) set the path to the file here.
 Directories will be created as necessary.
 
-Default: [file](#file)
+Default: _Input [file](#file)_
 
 #### summary
 
