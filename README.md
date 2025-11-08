@@ -48,15 +48,16 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 
 ## Inputs
 
-| Input                 | Default&nbsp;Value | Description&nbsp;of&nbsp;Input      |
-| :-------------------- | :----------------- | :---------------------------------- |
-| [file](#file)         | `manifest.json`    | JSON File Path                      |
-| [data](#data)         | -                  | Input JSON/YAML Data or File        |
-| [keys](#keysvalues)   | `version`          | Keys to Update                      |
-| [values](#keysvalues) | `github.ref_name`  | Values to Set                       |
-| `write`               | `true`             | Write Updates to [file](#file)      |
-| `seperator`           | `.`                | Nested [key](#keysvalues) Seperator |
-| [summary](#summary)   | `true`             | Add Summary to Job                  |
+| Input                 | Default&nbsp;Value | Description&nbsp;of&nbsp;Input       |
+| :-------------------- | :----------------- | :----------------------------------- |
+| [file](#file)         | `manifest.json`    | JSON File Path                       |
+| [data](#data)         | -                  | Input JSON/YAML Data or File         |
+| [keys](#keysvalues)   | `version`          | Keys to Update                       |
+| [values](#keysvalues) | `github.ref_name`  | Values to Set                        |
+| [write](#write)       | `true`             | Write Updates to [file](#file)       |
+| [output](#output)     | [file](#file)      | Write to a different file.           |
+| `seperator`           | `.`                | Nested [keys](#keysvalues) Seperator |
+| [summary](#summary)   | `true`             | Add Summary to Job                   |
 
 #### file
 
@@ -66,10 +67,11 @@ Default: `manifest.json`
 
 #### data
 
-This can be a JSON/YAML string, or a file path to a JSON/YAML file.  
+This can be a JSON/YAML string, or a file path to a JSON/YAML file.
+
 When providing `data` the [keys/values](#keysvalues) are omitted.
 
-<details><summary>👀 View Data Example.</summary>
+<details><summary>👀 View Example Data</summary>
 
 YAML data.
 
@@ -109,7 +111,7 @@ Finally, the data is merged using [deepmerge](https://github.com/TehShrike/deepm
 
 List of keys and values to update, one per line.
 
-<details><summary>👀 View Keys/Values Example.</summary>
+<details><summary>👀 View Example Keys/Values</summary>
 
 Single Key and Value.
 
@@ -144,6 +146,21 @@ Default key: `version`
 Default val: `${{ github.ref_name }}`
 
 Alternatively, you can provide data as a JSON/YAML string, see [data](#data).
+
+#### write
+
+This writes the resulting JSON back to the [file](#file).
+
+To write to a different file, set the [output](#output)
+
+Default: `true`
+
+#### output
+
+To [write](#write) the results to a different [file](#file) set the path to the file here.
+Directories will be created as necessary.
+
+Default: [file](#file)
 
 #### summary
 

@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const fs = require('node:fs')
+const path = require('node:path')
 
 const merge = require('deepmerge')
 const yaml = require('js-yaml')
@@ -60,8 +61,14 @@ async function main() /* NOSONAR */ {
 
     // Write File
     if (inputs.write) {
-        core.info(`💾 Wriring Result: \u001b[32;1m${inputs.file}`)
-        fs.writeFileSync(inputs.file, result)
+        const file = inputs.output || inputs.file
+        const dir = path.dirname(file)
+        if (!fs.existsSync(dir)) {
+            core.info(`📁 Creating Directory: \u001b[34;1m${dir}`)
+            fs.mkdirSync(dir, { recursive: true })
+        }
+        core.info(`💾 Wriring Result: \u001b[32;1m${file}`)
+        fs.writeFileSync(file, result)
     } else {
         core.info('⏩ \u001b[33mSkipping Wriring File')
     }
@@ -187,6 +194,7 @@ function parseData(data) {
  * @property {string[]} keys
  * @property {string[]} values
  * @property {boolean} write
+ * @property {string} output
  * @property {string} seperator
  * @property {boolean} summary
  * @return {Inputs}
@@ -199,6 +207,7 @@ function getInputs() {
         keys: core.getInput('keys', { required: true }).split('\n'),
         values: values.split('\n'),
         write: core.getBooleanInput('write'),
+        output: core.getInput('output'),
         seperator: core.getInput('seperator', {
             required: true,
             trimWhitespace: false,

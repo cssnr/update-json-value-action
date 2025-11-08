@@ -19,6 +19,8 @@ inputs:
   write:
     description: "Write Result to File"
     default: "true"
+  output:
+    description: "Write Result to File"
   seperator:
     description: "Nested Key Seperator"
     default: "."

@@ -98,6 +98,7 @@ jobs:
         with:
           summary: ${{ !github.event.act }}
           file: package.json
+          output: tmp/package.json
           data: |
             name: test3
             scripts:
@@ -107,7 +108,7 @@ jobs:
         #if: ${{ !github.event.act }}
         uses: cssnr/json-key-value-check-action@v1
         with:
-          file: package.json
+          file: tmp/package.json
           keys: |
             name
             scripts.lint
