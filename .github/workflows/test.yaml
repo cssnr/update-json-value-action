@@ -25,14 +25,21 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v5
 
-      - name: "Dump github"
+      - name: "Debug CTX github"
         if: ${{ !github.event.act }}
         continue-on-error: true
         env:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
+      - name: "Debug Environment"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        run: |
+          env
+
       - name: "1: Test Keys/Values"
+        #if: ${{ !github.event.act }}
         uses: ./
         with:
           summary: ${{ !github.event.act }}
@@ -59,6 +66,7 @@ jobs:
             npx prettier --write .
 
       - name: "2: Test JSON"
+        #if: ${{ !github.event.act }}
         uses: ./
         with:
           summary: ${{ !github.event.act }}
