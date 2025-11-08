@@ -28,7 +28,7 @@
 - [Support](#Support)
 - [Contributing](#Contributing)
 
-Update JSON file Key Values from a key/value list, JSON/YAML data or source file path for Release or Publishing.
+Update JSON file Key Values from a key/value list, JSON/YAML data or source file path for Build, Release or Publishing.
 
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
 Allows setting multiple key/value pairs, setting nested keys, and merging from source JSON data.
