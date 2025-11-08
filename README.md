@@ -35,14 +35,14 @@ Allows setting multiple key/value pairs, setting nested keys, and merging from s
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
 ```
 
 Or set the file, keys, and values.
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     file: package.json
     keys: version
@@ -150,7 +150,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
 ```
 
 ## Outputs
@@ -162,7 +162,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   id: json
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
 
 - name: 'Echo Result'
   run: echo '${{ steps.json.outputs.result }}'
@@ -176,7 +176,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     file: manifest.json
     keys: version
@@ -188,7 +188,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     keys: |
       version
@@ -203,7 +203,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     file: src/manifest.json
     keys: |
@@ -217,7 +217,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     file: package.json
     json: |
@@ -229,7 +229,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     file: package.json
     json: out/source.json
