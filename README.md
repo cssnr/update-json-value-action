@@ -38,16 +38,7 @@ Allows setting multiple key/value pairs, setting nested keys, and merging from s
   uses: cssnr/update-json-value-action@v2
 ```
 
-Or set the file, keys, and values.
-
-```yaml
-- name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v2
-  with:
-    file: package.json
-    keys: version
-    values: v1.0.0
-```
+You can also specify the [keys/values](#keysvalues) or provide source JSON/YAML [data or file](#data).
 
 See the [Inputs](#inputs) and [Examples](#examples) for more options.
 
@@ -80,15 +71,7 @@ When providing `data` the [keys/values](#keysvalues) are omitted.
 
 <details><summary>👀 View Data Example.</summary>
 
-Single Key and Value.
-
-```yaml
-with:
-  data: |
-    version: ${{ github.ref_name }}
-```
-
-Multiple Keys and Values.
+YAML data.
 
 ```yaml
 with:
@@ -97,6 +80,19 @@ with:
     scripts:
       test: echo success
 ```
+
+JSON Data
+
+```yaml
+with:
+  data: |
+    {
+      "version": "${{ github.ref_name }}",
+      "scripts": {"test": "echo success"}
+    }
+```
+
+File Data
 
 See the [Examples](#Examples) for more details.
 
