@@ -326,7 +326,7 @@ The following rolling [tags](https://github.com/cssnr/update-json-value-action/t
 | [![GitHub Tag Major](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*&style=for-the-badge&label=%20&color=44cc10)](https://github.com/cssnr/update-json-value-action/releases/latest) |   ✅    |  ✅  |  ✅   | **Major**  | `vN.x.x` | `vN`     |
 | [![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&style=for-the-badge&label=%20&color=blue)](https://github.com/cssnr/update-json-value-action/releases/latest) |   ✅    |  ✅  |  ❌   | **Minor**  | `vN.N.x` | `vN.N`   |
 | [![GitHub Release](https://img.shields.io/github/v/release/cssnr/update-json-value-action?style=for-the-badge&label=%20&color=red)](https://github.com/cssnr/update-json-value-action/releases/latest)                           |   ❌    |  ❌  |  ❌   | **Micro**  | `vN.N.N` | `vN.N.N` |
-| [latest](#https://github.com/cssnr/update-json-value-action/releases/latest)                                                                                                                                                     |   ✅    |  ✅  |  ✅   | **Latest** | `vX.X.X` | `latest` |
+| [latest](https://github.com/cssnr/update-json-value-action/releases/latest)                                                                                                                                                      |   ✅    |  ✅  |  ✅   | **Latest** | `vX.X.X` | `latest` |
 
 You can view the release notes for each version on the [releases](https://github.com/cssnr/update-json-value-action/releases) page.
 
