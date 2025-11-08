@@ -57,19 +57,19 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 
 ## Inputs
 
-| Input                   | Default&nbsp;Value | Description&nbsp;of&nbsp;Input |
-| :---------------------- | :----------------- | :----------------------------- |
-| [file](#file)           | `manifest.json`    | JSON File Path                 |
-| [data](#data)           | -                  | Source JSON/YAML Data or File  |
-| [keys](#keysvalues)     | `version`          | JSON Keys to Update            |
-| [values](#keysvalues)   | `github.ref_name`  | Values to Set                  |
-| [write](#write)         | `true`             | Write Updates to file          |
-| [seperator](#seperator) | `.`                | Nested Key Seperator           |
-| [summary](#summary)     | `true`             | Add Summary to Job             |
+| Input                 | Default&nbsp;Value | Description&nbsp;of&nbsp;Input      |
+| :-------------------- | :----------------- | :---------------------------------- |
+| [file](#file)         | `manifest.json`    | JSON File Path                      |
+| [data](#data)         | -                  | Input JSON/YAML Data or File        |
+| [keys](#keysvalues)   | `version`          | Keys to Update                      |
+| [values](#keysvalues) | `github.ref_name`  | Values to Set                       |
+| `write`               | `true`             | Write Updates to [file](#file)      |
+| `seperator`           | `.`                | Nested [key](#keysvalues) Seperator |
+| [summary](#summary)   | `true`             | Add Summary to Job                  |
 
 #### file
 
-This is the JSON file you wish to update like a `package.json`.
+This is the JSON file you wish to update, such as `package.json`.
 
 Default: `manifest.json`
 
@@ -78,12 +78,7 @@ Default: `manifest.json`
 This can be a JSON/YAML string, or a file path to a JSON/YAML file.  
 When providing `data` the [keys/values](#keysvalues) are omitted.
 
-If this is a file path, the file will be read, otherwise the value will be used.
-The resulting string is then parsed as JSON or YAML to an Object.
-
-Finally, the data is merged using [deepmerge](https://github.com/TehShrike/deepmerge).
-
-<details><summary>View Data Example.</summary>
+<details><summary>👀 View Data Example.</summary>
 
 Single Key and Value.
 
@@ -105,16 +100,20 @@ with:
 
 See the [Examples](#Examples) for more details.
 
+---
+
 </details>
+
+If this is a file path, the file will be read, otherwise the value will be used.
+The resulting string is then parsed as JSON or YAML to an Object.
+
+Finally, the data is merged using [deepmerge](https://github.com/TehShrike/deepmerge).
 
 #### keys/values
 
 List of keys and values to update, one per line.
 
-This input is omitted when providing [data](#data).
-If you omit these inputs, it will update the `version` key to the `ref_name` of the workflow.
-
-<details><summary>View Keys/Values Example.</summary>
+<details><summary>👀 View Keys/Values Example.</summary>
 
 Single Key and Value.
 
@@ -138,7 +137,12 @@ with:
 
 See the [Examples](#Examples) for more details.
 
+---
+
 </details>
+
+This input is omitted when providing [data](#data).
+If you omit these inputs, it will update the `version` key to the `ref_name` of the workflow.
 
 Default key: `version`
 Default val: `${{ github.ref_name }}`
@@ -189,7 +193,7 @@ To view a workflow run, click on a recent [Test](https://github.com/cssnr/update
 
 </details>
 
-If no options are passed, the `manifest.json` file's `version` key is updated to the `${{ github.ref_name }}`.
+If no inputs are passed, the `manifest.json` file's `version` key is updated to the `${{ github.ref_name }}`.
 
 ```yaml
 - name: 'Update JSON'
@@ -256,6 +260,20 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```
 
 </details>
+<details><summary>Merge Source YAML data</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v2
+  with:
+    file: package.json
+    data: |
+      version: ${{ github.ref_name }}
+      scripts:
+        test: echo success
+```
+
+</details>
 <details><summary>Merge Source JSON data</summary>
 
 ```yaml
@@ -263,19 +281,22 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
   uses: cssnr/update-json-value-action@v2
   with:
     file: package.json
-    json: |
-      {"scripts": {"test": "echo success"}}
+    data: |
+      {
+        "version": "${{ github.ref_name }}",
+        "scripts": {"test": "echo success"}
+      }
 ```
 
 </details>
-<details><summary>Merge Source JSON data File</summary>
+<details><summary>Merge Source File</summary>
 
 ```yaml
 - name: 'Update JSON'
   uses: cssnr/update-json-value-action@v2
   with:
     file: package.json
-    json: out/source.json
+    data: src/source.json
 ```
 
 </details>
