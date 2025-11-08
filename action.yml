@@ -31,5 +31,5 @@ outputs:
     description: "JSON Output Results"
 
 runs:
-  using: "node20"
+  using: "node24"
   main: "dist/index.js"
