@@ -158,7 +158,7 @@ Default: `true`
 To [write](#write) the results to a different [file](#file) set the path to the file here.
 Directories will be created as necessary.
 
-Default: _Input [file](#file)_
+Default: [file](#file)
 
 #### summary
 
@@ -331,7 +331,7 @@ You can view the release notes for each version on the [releases](https://github
 The **Major** tag is recommended. It is the most up-to-date and always backwards compatible.
 Breaking changes would result in a **Major** version bump. At a minimum you should use a **Minor** tag.
 
-The `latest` tag always points to the latest release.
+The `latest` tag always points to the latest release regardless of the version number.
 
 # Support
 
