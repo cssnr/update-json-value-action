@@ -1,5 +1,5 @@
 name: "Update JSON Value Action"
-description: "Update JSON file Key Values for Building or Publishing"
+description: "Update JSON file Key Values from a key/value list, JSON/YAML data or source file path for Build, Release or Publishing."
 author: "Shane"
 branding:
   icon: "code"
@@ -8,26 +8,24 @@ branding:
 inputs:
   file:
     description: "JSON File"
-    required: false
     default: "manifest.json"
+  data:
+    description: "JSON/YAML Data or File"
   keys:
     description: "Keys to Update"
-    required: false
     default: "version"
   values:
     description: "Values to Set"
-    required: false
   write:
     description: "Write Result to File"
-    required: false
     default: "true"
+  output:
+    description: "Write Result to File"
   seperator:
     description: "Nested Key Seperator"
-    required: false
     default: "."
   summary:
     description: "Add Summary to Job"
-    required: false
     default: "true"
 
 outputs:
@@ -35,5 +33,5 @@ outputs:
     description: "JSON Output Results"
 
 runs:
-  using: "node20"
+  using: "node24"
   main: "dist/index.js"

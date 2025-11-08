@@ -1,5 +1,7 @@
 name: "Test"
 
+# actions-up-ignore-file
+
 on:
   workflow_dispatch:
   schedule:
@@ -23,37 +25,98 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v5
 
-      - name: "Dump github"
+      - name: "Debug CTX github"
         if: ${{ !github.event.act }}
         continue-on-error: true
         env:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
-      - name: "Test Local Action"
-        id: test
+      - name: "Debug Environment"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        run: |
+          env
+
+      - name: "1: Test Keys/Values"
+        #if: ${{ !github.event.act }}
         uses: ./
         with:
+          summary: ${{ !github.event.act }}
           file: package.json
           keys: |
             name
             scripts.lint
           values: |
-            test
-            test
+            test1
+            test1
 
-      - name: "Verify JSON"
-        if: ${{ !github.event.act }}
-        id: verify
-        uses: cssnr/json-key-value-check-action@v1
+      - name: "1: Verify Keys/Values"
+        #if: ${{ !github.event.act }}
+        uses: cssnr/json-key-value-check-action@latest
         with:
           file: package.json
           keys: |
             name
             scripts.lint
+            scripts.prettier:write
+          values: |
+            test1
+            test1
+            npx prettier --write .
+
+      - name: "2: Test JSON"
+        #if: ${{ !github.event.act }}
+        uses: ./
+        with:
+          summary: ${{ !github.event.act }}
+          file: package.json
+          data: .github/test/source.json
+          #json: |
+          #  {
+          #    "devDependencies": {"prettier": "test"},
+          #    "scripts": {"build": "test"}
+          #  }
+
+      - name: "2: Verify JSON"
+        #if: ${{ !github.event.act }}
+        uses: cssnr/json-key-value-check-action@latest
+        with:
+          file: package.json
+          keys: |
+            devDependencies.prettier
+            scripts.build
+            scripts.prettier:write
           values: |
             test
             test
+            npx prettier --write .
+
+      - name: "3: Test YAML"
+        #if: ${{ !github.event.act }}
+        uses: ./
+        with:
+          summary: ${{ !github.event.act }}
+          file: package.json
+          output: tmp/package.json
+          data: |
+            name: test3
+            scripts:
+              lint: test3
+
+      - name: "3: Verify YAML"
+        #if: ${{ !github.event.act }}
+        uses: cssnr/json-key-value-check-action@latest
+        with:
+          file: tmp/package.json
+          keys: |
+            name
+            scripts.lint
+            scripts.prettier:write
+          values: |
+            test3
+            test3
+            npx prettier --write .
 
       - name: "Schedule Failure Notification"
         if: ${{ failure() && github.event_name == 'schedule' }}
