@@ -2,6 +2,7 @@
 [![GitHub Tag Minor](https://img.shields.io/github/v/tag/cssnr/update-json-value-action?sort=semver&filter=!v*.*.*&logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/releases)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/update-json-value-action?logo=git&logoColor=white&labelColor=585858&label=%20)](https://github.com/cssnr/update-json-value-action/releases/latest)
 [![GitHub Dist Size](https://img.shields.io/github/size/cssnr/update-json-value-action/dist%2Findex.js?logo=bookstack&logoColor=white&label=dist%20size)](https://github.com/cssnr/update-json-value-action/blob/master/src/index.js)
+[![Action Run Using](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcssnr%2Fupdate-json-value-action%2Frefs%2Fheads%2Fmaster%2Faction.yml&query=%24.runs.using&logo=githubactions&logoColor=white&label=runs)](https://github.com/cssnr/update-json-value-action/blob/master/action.yml)
 [![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/release.yaml?logo=cachet&label=release)](https://github.com/cssnr/update-json-value-action/actions/workflows/release.yaml)
 [![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml)
 [![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/update-json-value-action/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/update-json-value-action/actions/workflows/lint.yaml)
@@ -30,18 +31,18 @@
 Update JSON file Key Values for Building or Publishing.
 
 Zero configuration action to update a `manifest.json` file `version` value to a release tag.
-Allows setting multiple key/value pairs and setting nested keys. Currently only supports string values.
+Allows setting multiple key/value pairs, setting nested keys, and merging from source JSON data.
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
 ```
 
 Or set the file, keys, and values.
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
   with:
     file: package.json
     keys: version
@@ -56,19 +57,97 @@ See the [Inputs](#inputs) and [Examples](#examples) for more options.
 
 ## Inputs
 
-| Input     | Default&nbsp;Value | Description&nbsp;of&nbsp;Input |
-| :-------- | :----------------- | :----------------------------- |
-| file      | `manifest.json`    | JSON File Path                 |
-| keys      | `version`          | JSON Keys to Update            |
-| values    | `github.ref_name`  | Values to Update               |
-| write     | `true`             | Write Updates to file          |
-| seperator | `.`                | Nested Key Seperator           |
-| summary   | `true`             | Add Summary to Job             |
+| Input                   | Default&nbsp;Value | Description&nbsp;of&nbsp;Input |
+| :---------------------- | :----------------- | :----------------------------- |
+| [file](#file)           | `manifest.json`    | JSON File Path                 |
+| [data](#data)           | -                  | Source JSON/YAML Data or File  |
+| [keys](#keysvalues)     | `version`          | JSON Keys to Update            |
+| [values](#keysvalues)   | `github.ref_name`  | Values to Set                  |
+| [write](#write)         | `true`             | Write Updates to file          |
+| [seperator](#seperator) | `.`                | Nested Key Seperator           |
+| [summary](#summary)     | `true`             | Add Summary to Job             |
 
-**keys/values:** A newline delimited `|` list of keys/values to update, one per line.
-See [Examples](#Examples) for more details.
+#### file
 
-**summary:** Write a Summary for the job. To disable this set to `false`.
+This is the JSON file you wish to update like a `package.json`.
+
+Default: `manifest.json`
+
+#### data
+
+This can be a JSON/YAML string, or a file path to a JSON/YAML file.  
+When providing `data` the [keys/values](#keysvalues) are omitted.
+
+If this is a file path, the file will be read, otherwise the value will be used.
+The resulting string is then parsed as JSON or YAML to an Object.
+
+Finally, the data is merged using [deepmerge](https://github.com/TehShrike/deepmerge).
+
+<details><summary>View Data Example.</summary>
+
+Single Key and Value.
+
+```yaml
+with:
+  data: |
+    version: ${{ github.ref_name }}
+```
+
+Multiple Keys and Values.
+
+```yaml
+with:
+  data: |
+    version: ${{ github.ref_name }}
+    scripts:
+      test: echo success
+```
+
+See the [Examples](#Examples) for more details.
+
+</details>
+
+#### keys/values
+
+List of keys and values to update, one per line.
+
+This input is omitted when providing [data](#data).
+If you omit these inputs, it will update the `version` key to the `ref_name` of the workflow.
+
+<details><summary>View Keys/Values Example.</summary>
+
+Single Key and Value.
+
+```yaml
+with:
+  keys: version
+  values: ${{ github.ref_name }}
+```
+
+Multiple Keys and Values.
+
+```yaml
+with:
+  keys: |
+    version
+    scripts.test
+  values: |
+    ${{ github.ref_name }}
+    echo success
+```
+
+See the [Examples](#Examples) for more details.
+
+</details>
+
+Default key: `version`
+Default val: `${{ github.ref_name }}`
+
+Alternatively, you can provide data as a JSON/YAML string, see [data](#data).
+
+#### summary
+
+Write a Summary for the job. To disable this set to `false`.
 
 To view a workflow run, click on a recent [Test](https://github.com/cssnr/update-json-value-action/actions/workflows/test.yaml) job _(requires login)_.
 
@@ -114,7 +193,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
 ```
 
 ## Outputs
@@ -126,7 +205,7 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```yaml
 - name: 'Update JSON'
   id: json
-  uses: cssnr/update-json-value-action@v1
+  uses: cssnr/update-json-value-action@v2
 
 - name: 'Echo Result'
   run: echo '${{ steps.json.outputs.result }}'
@@ -136,12 +215,11 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 💡 _Click on an example heading to expand or collapse the example._
 
-<details open><summary>Manually setting values and only running on release events</summary>
+<details open><summary>Manually set file, key and value</summary>
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
+  uses: cssnr/update-json-value-action@v2
   with:
     file: manifest.json
     keys: version
@@ -153,10 +231,8 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
+  uses: cssnr/update-json-value-action@v2
   with:
-    file: manifest.json
     keys: |
       version
       version_name
@@ -166,18 +242,40 @@ If no options are passed, the `manifest.json` file's `version` key is updated to
 ```
 
 </details>
-<details><summary>Set a nested key and use file from different directory</summary>
+<details><summary>Set a nested key w/ default seperator</summary>
 
 ```yaml
 - name: 'Update JSON'
-  uses: cssnr/update-json-value-action@v1
-  if: ${{ github.event_name == 'release' }}
+  uses: cssnr/update-json-value-action@v2
   with:
     file: src/manifest.json
     keys: |
       meta.version
     values: |
       "Release ${{ github.ref_name }}"
+```
+
+</details>
+<details><summary>Merge Source JSON data</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v2
+  with:
+    file: package.json
+    json: |
+      {"scripts": {"test": "echo success"}}
+```
+
+</details>
+<details><summary>Merge Source JSON data File</summary>
+
+```yaml
+- name: 'Update JSON'
+  uses: cssnr/update-json-value-action@v2
+  with:
+    file: package.json
+    json: out/source.json
 ```
 
 </details>
@@ -217,18 +315,19 @@ For more information, see the CSSNR [SUPPORT.md](https://github.com/cssnr/.githu
 
 # Contributing
 
+If you would like to submit a PR, please review the [CONTRIBUTING.md](#contributing-ov-file).
+
 Please consider making a donation to support the development of this project
 and [additional](https://cssnr.com/) open source projects.
 
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/cssnr)
-
-If you would like to submit a PR, please review the [CONTRIBUTING.md](#contributing-ov-file).
 
 Additionally, you can support other GitHub Actions I have published:
 
 - [Stack Deploy Action](https://github.com/cssnr/stack-deploy-action?tab=readme-ov-file#readme)
 - [Portainer Stack Deploy Action](https://github.com/cssnr/portainer-stack-deploy-action?tab=readme-ov-file#readme)
 - [Docker Context Action](https://github.com/cssnr/docker-context-action?tab=readme-ov-file#readme)
+- [Actions Up Action](https://github.com/cssnr/actions-up-action?tab=readme-ov-file#readme)
 - [VirusTotal Action](https://github.com/cssnr/virustotal-action?tab=readme-ov-file#readme)
 - [Mirror Repository Action](https://github.com/cssnr/mirror-repository-action?tab=readme-ov-file#readme)
 - [Update Version Tags Action](https://github.com/cssnr/update-version-tags-action?tab=readme-ov-file#readme)
@@ -251,6 +350,7 @@ Additionally, you can support other GitHub Actions I have published:
 
 These actions are not published on the Marketplace, but may be useful.
 
+- [cssnr/create-files-action](https://github.com/cssnr/create-files-action?tab=readme-ov-file#readme) - Create various files from templates.
 - [cssnr/draft-release-action](https://github.com/cssnr/draft-release-action?tab=readme-ov-file#readme) - Keep a draft release ready to publish.
 - [cssnr/env-json-action](https://github.com/cssnr/env-json-action?tab=readme-ov-file#readme) - Convert env file to json or vice versa.
 - [cssnr/push-artifacts-action](https://github.com/cssnr/push-artifacts-action?tab=readme-ov-file#readme) - Sync files to a remote host with rsync.
@@ -266,9 +366,9 @@ These actions are not published on the Marketplace, but may be useful.
 These are basic action templates that I use for creating new actions.
 
 - [js-test-action](https://github.com/smashedr/js-test-action?tab=readme-ov-file#readme) - JavaScript
-- [py-test-action](https://github.com/smashedr/py-test-action?tab=readme-ov-file#readme) - Python
 - [ts-test-action](https://github.com/smashedr/ts-test-action?tab=readme-ov-file#readme) - TypeScript
-- [docker-test-action](https://github.com/smashedr/docker-test-action?tab=readme-ov-file#readme) - Docker Image
+- [py-test-action](https://github.com/smashedr/py-test-action?tab=readme-ov-file#readme) - Python (Dockerfile)
+- [docker-test-action](https://github.com/smashedr/docker-test-action?tab=readme-ov-file#readme) - Docker (Image)
 
 Note: The `docker-test-action` builds, runs and pushes images to [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
 
