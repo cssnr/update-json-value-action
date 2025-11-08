@@ -1,102 +1,96 @@
 const core = require('@actions/core')
-const fs = require('fs')
+const fs = require('node:fs')
 
 const merge = require('deepmerge')
 
-;(async () => {
-    try {
-        core.info('🏳️ Starting Update JSON Value Action')
+async function main() {
+    core.info('🏳️ Starting Update JSON Value Action')
 
-        // Parse Inputs
-        const inputs = getInputs()
-        core.startGroup('Parsed Inputs')
-        console.log('inputs:', inputs)
-        core.endGroup() // Inputs
+    // Parse Inputs
+    const inputs = getInputs()
+    core.startGroup('Parsed Inputs')
+    console.log('inputs:', inputs)
+    core.endGroup() // Inputs
 
-        if (inputs.keys.length !== inputs.values.length) {
-            return core.setFailed('Keys and Values length are not equal.')
-        }
-
-        // Source Data
-        const sourceData = fs.readFileSync(inputs.file, 'utf8')
-        const source = JSON.parse(sourceData)
-        // console.log('source:', source)
-
-        // Update JSON
-        let data
-        let sourceJson
-        core.startGroup('Processing')
-        if (inputs.json) {
-            if (fs.existsSync(inputs.json)) {
-                core.info(`Parsing JSON File: \u001b[32m${inputs.json}`)
-                const file = fs.readFileSync(inputs.json, 'utf8')
-                // console.log('file:', file)
-                sourceJson = JSON.parse(file)
-                console.log('sourceJson:', sourceJson)
-                data = merge(source, sourceJson)
-            } else {
-                core.info('Parsing JSON String.')
-                sourceJson = JSON.parse(inputs.json)
-                console.log('sourceJson:', sourceJson)
-                data = merge(source, sourceJson)
-            }
-        } else {
-            for (let i = 0; i < inputs.keys.length; i++) {
-                const key = inputs.keys[i]
-                const value = inputs.values[i]
-                console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
-                setNestedValue(source, key, value, inputs.seperator)
-            }
-            data = source
-        }
-        // console.log('data:', data)
-        core.endGroup() // Processing
-
-        // Parse Result
-        core.startGroup('Results')
-        const result = JSON.stringify(data, null, 2)
-        console.log(result)
-        core.endGroup() // Results
-
-        // Write File
-        if (inputs.write) {
-            core.info(`💾 Wriring Result: \u001b[32;1m${inputs.file}`)
-            fs.writeFileSync(inputs.file, result)
-        } else {
-            core.info('⏩ \u001b[33mSkipping Wriring File')
-        }
-
-        // Set Output
-        core.info('📩 Setting Outputs')
-        core.setOutput('result', JSON.stringify(data))
-
-        // Job Summary
-        if (inputs.summary) {
-            core.info('📝 Writing Job Summary')
-            try {
-                await writeSummary(inputs, sourceJson, result)
-            } catch (e) {
-                console.log(e)
-                core.error(`Error writing Job Summary ${e.message}`)
-            }
-        } else {
-            core.info('⏩ Skipping Job Summary')
-        }
-
-        core.info('✅ \u001b[32;1mFinished Success')
-    } catch (e) {
-        core.debug(e)
-        core.info(e.message)
-        core.setFailed(e.message)
+    if (inputs.keys.length !== inputs.values.length) {
+        return core.setFailed('Keys and Values length are not equal.')
     }
-})()
+
+    // Source Data
+    const sourceData = fs.readFileSync(inputs.file, 'utf8')
+    const source = JSON.parse(sourceData)
+    // console.log('source:', source)
+
+    // Update JSON
+    let data
+    let sourceJson
+    core.startGroup('Processing')
+    if (inputs.json) {
+        if (fs.existsSync(inputs.json)) {
+            core.info(`Parsing JSON File: \u001b[32m${inputs.json}`)
+            const file = fs.readFileSync(inputs.json, 'utf8')
+            // console.log('file:', file)
+            sourceJson = JSON.parse(file)
+            console.log('sourceJson:', sourceJson)
+            data = merge(source, sourceJson)
+        } else {
+            core.info('Parsing JSON String.')
+            sourceJson = JSON.parse(inputs.json)
+            console.log('sourceJson:', sourceJson)
+            data = merge(source, sourceJson)
+        }
+    } else {
+        for (let i = 0; i < inputs.keys.length; i++) {
+            const key = inputs.keys[i]
+            const value = inputs.values[i]
+            console.log(`${i + 1}: ${key}: \u001b[36m${value}`)
+            setNestedValue(source, key, value, inputs.seperator)
+        }
+        data = source
+    }
+    // console.log('data:', data)
+    core.endGroup() // Processing
+
+    // Parse Result
+    core.startGroup('Results')
+    const result = JSON.stringify(data, null, 2)
+    console.log(result)
+    core.endGroup() // Results
+
+    // Write File
+    if (inputs.write) {
+        core.info(`💾 Wriring Result: \u001b[32;1m${inputs.file}`)
+        fs.writeFileSync(inputs.file, result)
+    } else {
+        core.info('⏩ \u001b[33mSkipping Wriring File')
+    }
+
+    // Set Output
+    core.info('📩 Setting Outputs')
+    core.setOutput('result', JSON.stringify(data))
+
+    // Job Summary
+    if (inputs.summary) {
+        core.info('📝 Writing Job Summary')
+        try {
+            await writeSummary(inputs, sourceJson, result)
+        } catch (e) {
+            console.log(e)
+            core.error(`Error writing Job Summary ${e.message}`)
+        }
+    } else {
+        core.info('⏩ Skipping Job Summary')
+    }
+
+    core.info('✅ \u001b[32;1mFinished Success')
+}
 
 /**
  * @function setNestedValue
- * @param {Object} obj JSON Object
- * @param {String} path Nested Key String
- * @param {String} value Value to set
- * @param {String} sep Nested Key Seperator
+ * @param {object} obj JSON Object
+ * @param {string} path Nested Key String
+ * @param {string} value Value to set
+ * @param {string} sep Nested Key Seperator
  */
 function setNestedValue(obj, path, value, sep) {
     const keys = path.split(sep)
@@ -114,8 +108,8 @@ function setNestedValue(obj, path, value, sep) {
 /**
  * @function writeSummary
  * @param {Inputs} inputs
- * @param {Object} sourceJson
- * @param {String} result
+ * @param {object} sourceJson
+ * @param {string} result
  * @return {Promise<void>}
  */
 async function writeSummary(inputs, sourceJson, result) {
@@ -162,14 +156,14 @@ async function writeSummary(inputs, sourceJson, result) {
 
 /**
  * Get Inputs
- * @typedef {Object} Inputs
- * @property {String} file
- * @property {String[]} keys
- * @property {String[]} values
- * @property {String} json
- * @property {Boolean} write
- * @property {String} seperator
- * @property {Boolean} summary
+ * @typedef {object} Inputs
+ * @property {string} file
+ * @property {string[]} keys
+ * @property {string[]} values
+ * @property {string} json
+ * @property {boolean} write
+ * @property {string} seperator
+ * @property {boolean} summary
  * @return {Inputs}
  */
 function getInputs() {
@@ -187,3 +181,9 @@ function getInputs() {
         summary: core.getBooleanInput('summary'),
     }
 }
+
+main().catch((e) => {
+    core.debug(e)
+    core.info(e.message)
+    core.setFailed(e.message)
+})
