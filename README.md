@@ -94,8 +94,6 @@ with:
     }
 ```
 
-File Data
-
 See the [Examples](#Examples) for more details.
 
 ---
@@ -332,6 +330,8 @@ You can view the release notes for each version on the [releases](https://github
 
 The **Major** tag is recommended. It is the most up-to-date and always backwards compatible.
 Breaking changes would result in a **Major** version bump. At a minimum you should use a **Minor** tag.
+
+The `latest` tag always points to the latest release.
 
 # Support
 
